@@ -1,16 +1,19 @@
-{% set version = "1.29.0" %}
+{% set date = "2018-09-30" %}
+{% set version = "1.30.0_" ~ date.replace('-', '_') %}
 
 package:
-  name: rust
+  name: rust-nightly
   version: {{ version }}
 
 source:
-  url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux]
-  url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-apple-darwin.tar.gz       # [osx]
-  url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz    # [win64]
-  sha256: 09f99986c17b1b6b1bfbc9dd8785e0e4693007c5feb67915395d115c1a3aea9d  # [linux]
-  sha256: 28a0473637585742f6d80ccd8afd88b6b400e65d623c33cb892412759444da93  # [osx]
-  sha256: 64f8c85540520c82d579d7eac5e2a524b42a6083cc46c7e80181512651a66fef  # [win64]
+  # Look in https://static.rust-lang.org/dist/channel-rust-nightly.toml
+  url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-unknown-linux-gnu.tar.xz  # [linux]
+  url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-apple-darwin.tar.xz  # [osx]
+  url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-msvc.tar.xz  # [win64]
+
+  sha256: 312a760de45dd0d7301e8bf7034225fbfc6ee6dbb2ddec56c9f5383a6d00ca62  # [linux]
+  sha256: 0f97c4a262b4806d68d42ac121f960726e776ca519496c828133606fbe324648  # [osx]
+  sha256: e368f9e0b982b3263b0a958fc6788923d594fcbc2e2494c9ef8df84436cbcbfa  # [win64]
 
 build:
   number: 0
@@ -23,14 +26,25 @@ build:
     - /usr/lib/libiconv.2.dylib
     - /usr/lib/libcurl.4.dylib
     - /usr/lib/libxar.1.dylib
-    - '**/ld-linux-x86-64.so.2'
-    - '**/libc.so.6'
-    - '**/libdl.so.2'
-    - '**/libgcc_s.so.1'
-    - '**/libm.so.6'
-    - '**/libpthread.so.0'
-    - '**/librt.so.1'
-    - '**/libgcc_s.so.1'
+    # Needed for nightly
+    - /usr/lib/libxml2.2.dylib
+    - /usr/lib/libform.5.4.dylib
+    - /System/Library/Frameworks/Python.framework/Versions/2.7/Python
+    - /usr/lib/libedit.3.dylib
+    - /usr/lib/libncurses.5.4.dylib
+    - /usr/lib/libpanel.5.4.dylib
+    - /usr/lib/libcompression.dylib
+    - /System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols
+
+    - '**ld-linux-x86-64.so.2'
+    - '**libc.so.6'
+    - '**libdl.so.2'
+    - '**libgcc_s.so.1'
+    - '**libm.so.6'
+    - '**libpthread.so.0'
+    - '**librt.so.1'
+    - '**libgcc_s.so.1'
+    - '**libstdc++.so.6'
 
 requirements:
   build:
@@ -39,7 +53,7 @@ requirements:
 test:
   requires:
     - gcc_impl_linux-64  # [linux]
-    - clang_impl_osx-64  # [osx]
+    - clang_osx-64  # [osx]
   files:
     - forge_test.sh
   commands:
