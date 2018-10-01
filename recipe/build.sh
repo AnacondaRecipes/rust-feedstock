@@ -17,9 +17,7 @@ elif [[ $target_platform =~ .*linux.* ]]; then
              lib/libLLVM-8svn.so \
              bin/llvm-profdata \
              codegen-backends/librustc_codegen_llvm-llvm.so; do
-    readelf -d ${EXE}
     chrpath -d ${EXE}
     patchelf --force-rpath --set-rpath '$ORIGIN/../lib' ${EXE}
   done
 fi
-
