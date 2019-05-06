@@ -11,7 +11,8 @@ function cygpath()
 
 pushd msvc
 
-PATH="${PWD}:$PATH" ./install.sh --prefix=$(cygpath ${PREFIX})
+# PATH="${PWD}:$PATH" ./install.sh --prefix=$(cygpath ${PREFIX})
+cp -rf rustc/* $(cygpath ${PREFIX})
 
 if [[ ${target_platform} == osx-64 ]]; then
   if [[ $(uname) == Darwin ]]; then
