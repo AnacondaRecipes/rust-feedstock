@@ -1,45 +1,85 @@
 {% set version = "1.40.0" %}
 
 package:
-  name: rust
+  name: 'rust-suite'
   version: {{ version }}
 
 source:
-  url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux and x86_64]
-  url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
-  url: https://static.rust-lang.org/dist/rust-{{ version }}-powerpc64le-unknown-linux-gnu.tar.gz  # [ppc64le]
-  url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-apple-darwin.tar.gz       # [osx]
-  url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz    # [win64]
-  sha256: fc91f8b4bd18314e83a617f2389189fc7959146b7177b773370d62592d4b07d0  # [linux and 86_64]
-  sha256: 639271f59766d291ebdade6050e7d05d61cb5c822a3ef9a1e2ab185fed68d729  # [aarch64]
-  sha256: b1a23e35c383f99e647df6a9239b1dc9313e293deb70a76ba58e8ebe55ef623b  # [ppc64le]
-  sha256: 749ca5e0b94550369cc998416b8854c13157f5d11d35e9b3276064b6766bcb83  # [osx]
-  sha256: 64d98af9b9114a3aaea096ba74c43cad75a2502fb682e941b4701f5d2a2b9272  # [win64]
+  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
+    sha256: fc91f8b4bd18314e83a617f2389189fc7959146b7177b773370d62592d4b07d0  # [linux64]
+  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-apple-darwin.tar.gz  # [osx]
+    sha256: 749ca5e0b94550369cc998416b8854c13157f5d11d35e9b3276064b6766bcb83  # [osx]
+  - url: https://static.rust-lang.org/dist/rust-{{ version }}-i686-pc-windows-msvc.tar.gz  # [win32]
+    sha256: ae237dee13530535e03c426b49ccbc94a1604c6a07db6b0c1567d7fbb7e2b9f9  # [win32]
+    folder: msvc  # [win32]
+  - url: https://static.rust-lang.org/dist/rust-{{ version }}-i686-pc-windows-gnu.tar.gz  # [win32]
+    sha256: aecd5fa8b1a074272e869d9385543f0760dedd9675c9051dc09892b8a199a8dd  # [win32]
+    folder: gnu  # [win32]
+  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win64]
+    sha256: 64d98af9b9114a3aaea096ba74c43cad75a2502fb682e941b4701f5d2a2b9272  # [win64]
+    folder: msvc  # [win64]
+  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-gnu.tar.gz  # [win64]
+    sha256: 773bd088efa11b5e68d67e894c905be6e81679493e08d062a23bed0375567171  # [win64]
+    folder: gnu  # [win64]
 
 build:
-  number: 0
+  # Skipping build 1 to align with conda-forge better (if merge a PR quickly).
+  number: 1
   # the distributed binaries are already relocatable
   binary_relocation: False
+  runpath_whitelist:
+    - $ORIGIN/../lib
+  missing_dso_whitelist:
+    - /usr/lib/libresolv.9.dylib
+    - /usr/lib/libc++.1.dylib
+    - /usr/lib/libc++abi.dylib
+    - /usr/lib/libiconv.2.dylib
+    - /usr/lib/libcurl.4.dylib
+    - /usr/lib/libxar.1.dylib
+    # Since 1.32.0 macOS also needs:
+    - /System/Library/Frameworks/Python.framework/Versions/2.7/Python
+    - /System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols
+    - /usr/lib/libcompression.dylib
+    - /usr/lib/libedit.3.dylib
+    - /usr/lib/libform.5.4.dylib
+    - /usr/lib/libncurses.5.4.dylib
+    - /usr/lib/libpanel.5.4.dylib
+    - /usr/lib/libxml2.2.dylib
+    # Fixed via install_name_tool now (just declaring it here meant the thing using -
+    # lib/rustlib/x86_64-apple-darwin/lib/python2.7/site-packages/lldb/lldb-argdumper - was
+    # still unable to find it at runtime).
+    # - $RPATH/libLLVM.dylib
 
-requirements:
-  build:
-    - posix  # [win]
-  run:
-    - {{ compiler('c') }}  # [linux] -- rustc needs a toolchain to link executables on Linux
+    - '**/ld-linux-x86-64.so.2'
+    - '**/libc.so.6'
+    - '**/libdl.so.2'
+    - '**/libgcc_s.so.1'
+    - '**/libm.so.6'
+    - '**/libpthread.so.0'
+    - '**/librt.so.1'
+    - '**/libgcc_s.so.1'
+    # Since 1.32.0 linux also needs:
+    - '**/libstdc++.so.6'
 
-test:
-  files:
-    - forge_test.sh
-  commands:
-    - time bash ./forge_test.sh  # [not win]
-    - bash forge_test.sh  # [win]
+outputs:
+  - name: rust
+    script: install-msvc.sh  # [win]
+    script: install-unix.sh  # [not win]
+    requirements:
+      build:
+        - {{ compiler('c') }}    # [osx]
+        - posix  # [win]
+
+
+  - name: rust-gnu  # [win]
+    script: install-gnu.sh  # [win]
+    requirements:  # [win]
+      build:  # [win]
+        - posix  # [win]
 
 about:
   home: https://www.rust-lang.org
   license: MIT
-  license_file:
-    - LICENSE-APACHE
-    - LICENSE-MIT
   summary: |
     Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
     This package provides the compiler (rustc) and the documentation utilities rustdoc.
@@ -48,7 +88,8 @@ about:
 
 extra:
   recipe-maintainers:
-    - johanneskoester
     - abhi18av
-    - pkgw
     - dlaehnemann
+    - johanneskoester
+    - mingwandroid
+    - pkgw
