@@ -32,6 +32,22 @@ outputs:
       noarch: generic
       binary_relocation: false
       missing_dso_whitelist:   # [linux]
+        - /usr/lib/libresolv.9.dylib
+        - /usr/lib/libc++.1.dylib
+        - /usr/lib/libc++abi.dylib
+        - /usr/lib/libiconv.2.dylib
+        - /usr/lib/libcurl.4.dylib
+        - /usr/lib/libxar.1.dylib
+        - $RPATH/libLLVM-12-rust-1.54.0-stable.so
+        # Since 1.32.0 macOS also needs:
+        - /System/Library/Frameworks/Python.framework/Versions/2.7/Python
+        - /System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols
+        - /usr/lib/libcompression.dylib
+        - /usr/lib/libedit.3.dylib
+        - /usr/lib/libform.5.4.dylib
+        - /usr/lib/libncurses.5.4.dylib
+        - /usr/lib/libpanel.5.4.dylib
+        - /usr/lib/libxml2.2.dylib
         - '**/ld-linux-x86-64.so.2'
         - '**/libc.so.6'
         - '**/libdl.so.2'
@@ -64,6 +80,22 @@ outputs:
       # the distributed binaries are already relocatable
       binary_relocation: false
       missing_dso_whitelist:   # [linux]
+        - /usr/lib/libresolv.9.dylib
+        - /usr/lib/libc++.1.dylib
+        - /usr/lib/libc++abi.dylib
+        - /usr/lib/libiconv.2.dylib
+        - /usr/lib/libcurl.4.dylib
+        - /usr/lib/libxar.1.dylib
+        - $RPATH/libLLVM-12-rust-1.54.0-stable.so
+        # Since 1.32.0 macOS also needs:
+        - /System/Library/Frameworks/Python.framework/Versions/2.7/Python
+        - /System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols
+        - /usr/lib/libcompression.dylib
+        - /usr/lib/libedit.3.dylib
+        - /usr/lib/libform.5.4.dylib
+        - /usr/lib/libncurses.5.4.dylib
+        - /usr/lib/libpanel.5.4.dylib
+        - /usr/lib/libxml2.2.dylib
         - '**/ld-linux-x86-64.so.2'
         - '**/libc.so.6'
         - '**/libdl.so.2'
