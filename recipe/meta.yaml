@@ -31,6 +31,8 @@ outputs:
     build:
       noarch: generic
       binary_relocation: false
+      runpath_whitelist:
+        - $ORIGIN/../lib
       missing_dso_whitelist:   # [linux]
         - /usr/lib/libresolv.9.dylib
         - /usr/lib/libc++.1.dylib
@@ -79,6 +81,8 @@ outputs:
     build:
       # the distributed binaries are already relocatable
       binary_relocation: false
+      runpath_whitelist:
+        - $ORIGIN/../lib
       missing_dso_whitelist:   # [linux]
         - /usr/lib/libresolv.9.dylib
         - /usr/lib/libc++.1.dylib
