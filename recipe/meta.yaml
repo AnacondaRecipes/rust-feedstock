@@ -38,7 +38,7 @@ outputs:
         - /usr/lib/libiconv.2.dylib
         - /usr/lib/libcurl.4.dylib
         - /usr/lib/libxar.1.dylib
-        - $RPATH/libLLVM-12-rust-1.54.0-stable.so
+        - $RPATH/libLLVM-14-rust-1.63.0-stable.so
         # Since 1.32.0 macOS also needs:
         - /System/Library/Frameworks/Python.framework/Versions/2.7/Python
         - /System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols
@@ -86,7 +86,7 @@ outputs:
         - /usr/lib/libiconv.2.dylib
         - /usr/lib/libcurl.4.dylib
         - /usr/lib/libxar.1.dylib
-        - $RPATH/libLLVM-12-rust-1.54.0-stable.so
+        - $RPATH/libLLVM-14-rust-1.63.0-stable.so
         # Since 1.32.0 macOS also needs:
         - /System/Library/Frameworks/Python.framework/Versions/2.7/Python
         - /System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols
