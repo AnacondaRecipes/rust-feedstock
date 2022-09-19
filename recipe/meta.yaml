@@ -59,6 +59,7 @@ outputs:
         - '**/libpthread.so.0'
         - '**/librt.so.1'
         - '**/libgcc_s.so.1'
+        - '**/libz.so.1'
         # Since 1.32.0 linux also needs:
         - '**/libstdc++.so.6'
       merge_build_host: false
@@ -109,6 +110,7 @@ outputs:
         - '**/libpthread.so.0'
         - '**/librt.so.1'
         - '**/libgcc_s.so.1'
+        - '**/libz.so.1'
         # Since 1.32.0 linux also needs:
         - '**/libstdc++.so.6'
 
