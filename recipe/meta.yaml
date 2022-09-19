@@ -74,7 +74,6 @@ outputs:
     requirements:
       build:
         - posix  # [win]
-        - libgcc # [linux]
       host:
         - {{ pin_subpackage("rust-std-" ~ rust_arch, exact=True) }}
         - {{ compiler('c') }}  # [linux] -- rustc needs a toolchain to link executables
@@ -83,6 +82,7 @@ outputs:
       run:
         - {{ pin_subpackage("rust-std-" ~ rust_arch, exact=True) }}
         - gcc_impl_{{ target_platform }}  # [linux]
+        - libgcc-ng # [linux]
     test:
       requires:
         - posix  # [win]
