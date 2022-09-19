@@ -66,7 +66,7 @@ outputs:
         - /lib64/libc.so.6  # [linux]
         - /lib64/ld-linux-x86-64.so.2  # [linux]
         # Added as run deps: libgcc-ng (via compiler strong run_exports), zlib
-        # - /lib64/libgcc_s.so.1  # [linux]
+        - /lib64/libgcc_s.so.1  # [linux]
         # - /lib64/libz.so.1  # [linux]
     run_exports:
       strong_constrains:
@@ -77,7 +77,6 @@ outputs:
       host:
         - {{ pin_subpackage("rust-std-" ~ rust_arch, exact=True) }}
         - {{ compiler('c') }}  # [linux] -- rustc needs a toolchain to link executables
-        - libgcc-ng # [linux]
         # zlib is linked by **/lib/libLLVM-*-rust-*.so
         - zlib  # [linux]
       run:
