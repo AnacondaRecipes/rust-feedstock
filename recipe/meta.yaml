@@ -82,6 +82,7 @@ outputs:
       run:
         - {{ pin_subpackage("rust-std-" ~ rust_arch, exact=True) }}
         - gcc_impl_{{ target_platform }}  # [linux]
+        - libgcc # [linux]
     test:
       requires:
         - posix  # [win]
