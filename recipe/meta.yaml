@@ -94,7 +94,7 @@ outputs:
 
 about:
   home: https://www.rust-lang.org
-  license: MIT
+  license: MIT AND Apache-2.0
   license_file:
     - LICENSE-APACHE
     - LICENSE-MIT
