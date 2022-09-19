@@ -59,15 +59,19 @@ outputs:
       # the distributed binaries are already relocatable
       binary_relocation: false
       missing_dso_whitelist:   # [linux]
-        - /lib64/librt.so.1  # [linux]
-        - /lib64/libdl.so.2  # [linux]
-        - /lib64/libpthread.so.0  # [linux]
-        - /lib64/libm.so.6  # [linux]
-        - /lib64/libc.so.6  # [linux]
-        - /lib64/ld-linux-x86-64.so.2  # [linux]
-        # Added as run deps: libgcc-ng (via compiler strong run_exports), zlib
-        - /lib64/libgcc_s.so.1  # [linux]
-        # - /lib64/libz.so.1  # [linux]
+        - '**/ld-linux-x86-64.so.2'
+        - '**/libc.so.6'
+        - '**/libdl.so.2'
+        - '**/ld64.so.*'
+        - '**/libgcc_s.so.1'
+        - '**/libm.so.6'
+        - '**/libpthread.so.0'
+        - '**/librt.so.1'
+        - '**/libgcc_s.so.1'
+        - '**/libz.so.1'
+        # Since 1.32.0 linux also needs:
+        - '**/libstdc++.so.6'
+
     run_exports:
       strong_constrains:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
