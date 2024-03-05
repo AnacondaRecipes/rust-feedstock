@@ -217,6 +217,7 @@ extra:
     reason: Client request
   recipe-maintainers:
     - ianaobi
+    - bkreider
     - timkpaine
     - xhochy
     - johanneskoester
