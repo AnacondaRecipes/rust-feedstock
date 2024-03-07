@@ -19,7 +19,7 @@ source:
     sha256: cc908e1f0625aae0da5f4a35c390828947887929af694029fc3ccdf4cc66b0dd  # [win64]
     folder: msvc  # [win64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-gnu.tar.gz  # [win64]
-    sha256: 15289233721ad7c3d697890d9c6079ca3b8a0f6740c080fbec3e8ae3a5ea5c8c  # [win64]
+    sha256: 5a9722e73b4511d41cc70270a730f233da43c8c2e103ae469c3b62d89e78df35  # [win64]
     folder: gnu  # [win64]
 
 build:
