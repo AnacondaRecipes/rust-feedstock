@@ -8,7 +8,7 @@ source:
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
     sha256: 9d589d2036b503cc45ecc94992d616fb3deec074deb36cacc2f5c212408f7399  # [linux64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
-    sha256: 171e118a34ad6bbf12540a3f1644649b0a9623c3381449ec4639f68bf293dc4e  # [aarch64]
+    sha256: 2e8313421e8fb673efdf356cdfdd4bc16516f2610d4f6faa01327983104c05a0  # [aarch64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-s390x-unknown-linux-gnu.tar.gz  # [s390x]
     sha256: 4205dc823ef57c4d9bdf80fb4ecb1e23a71af6dca05432b9fb5a6e9e08fe8f19  # [s390x]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-apple-darwin.tar.gz  # [osx and x86_64]
