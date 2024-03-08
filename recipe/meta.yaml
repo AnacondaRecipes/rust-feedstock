@@ -78,7 +78,6 @@ outputs:
         - cargo --config registries.crates-io.protocol=\"sparse\" install --force xsv
         - rustc --help
         - rustdoc --help
-        - echo {{ rust_arch }}
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
 
   - name: rust-gnu  # [win]
@@ -93,7 +92,6 @@ outputs:
         - cargo --config registries.crates-io.protocol=\"sparse\" install --force xsv  # [win]
         - rustc --help  # [win]
         - rustdoc --help  # [win]
-        - echo {{ rust_arch }}  # [win]
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
 
 about:
