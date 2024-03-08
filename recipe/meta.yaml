@@ -75,7 +75,11 @@ outputs:
       commands:
         - rustc --version
         - cargo --help
-
+        - cargo --config registries.crates-io.protocol=\"sparse\" install --force xsv
+        - rustc --help
+        - rustdoc --help
+        - echo {{ rust_arch }}
+        - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
 
   - name: rust-gnu  # [win]
     script: install-gnu.bat  # [win]
@@ -86,6 +90,11 @@ outputs:
       commands:  # [win]
         - rustc --version  # [win]
         - cargo --help  # [win]
+        - cargo --config registries.crates-io.protocol=\"sparse\" install --force xsv  # [win]
+        - rustc --help  # [win]
+        - rustdoc --help  # [win]
+        - echo {{ rust_arch }}  # [win]
+        - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
 
 about:
   home: https://www.rust-lang.org
