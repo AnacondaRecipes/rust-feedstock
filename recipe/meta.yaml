@@ -72,10 +72,11 @@ outputs:
         - {{ compiler('c') }}    # [osx]
         - posix  # [win]
     test:
+      files:
+        - forge_test.sh  # [unix]
       commands:
         - rustc --version
         - cargo --help
-        - cargo --config registries.crates-io.protocol=\"sparse\" install --force xsv
         - rustc --help
         - rustdoc --help
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
@@ -86,10 +87,11 @@ outputs:
       build:  # [win]
         - posix # [win]
     test:  # [win]
+      files:
+        - forge_test.sh  # [win]
       commands:  # [win]
         - rustc --version  # [win]
         - cargo --help  # [win]
-        - cargo --config registries.crates-io.protocol=\"sparse\" install --force xsv  # [win]
         - rustc --help  # [win]
         - rustdoc --help  # [win]
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
