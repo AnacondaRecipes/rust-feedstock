@@ -72,15 +72,18 @@ outputs:
         - {{ compiler('c') }}    # [osx]
         - posix  # [win]
     test:
+      requires:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
       files:
-        - forge_test.sh  # [unix]
+        - forge_test.sh  # [not win]
       commands:
-        - time bash ./forge_test.sh  # [not win]
         - rustc --version
         - cargo --help
         - rustc --help
         - rustdoc --help
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
+        - time bash ./forge_test.sh  # [not win]
 
   - name: rust-gnu  # [win]
     script: install-gnu.bat  # [win]
@@ -88,10 +91,7 @@ outputs:
       build:  # [win]
         - posix # [win]
     test:  # [win]
-      files:
-        - forge_test.sh  # [win]
       commands:  # [win]
-        - time bash ./forge_test.sh  # [win]
         - rustc --version  # [win]
         - cargo --help  # [win]
         - rustc --help  # [win]
