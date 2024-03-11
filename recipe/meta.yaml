@@ -75,6 +75,7 @@ outputs:
       files:
         - forge_test.sh  # [unix]
       commands:
+        - time bash ./forge_test.sh  # [not win]
         - rustc --version
         - cargo --help
         - rustc --help
@@ -90,6 +91,7 @@ outputs:
       files:
         - forge_test.sh  # [win]
       commands:  # [win]
+        - time bash ./forge_test.sh  # [win]
         - rustc --version  # [win]
         - cargo --help  # [win]
         - rustc --help  # [win]
