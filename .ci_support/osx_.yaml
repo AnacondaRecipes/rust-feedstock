@@ -1,6 +1,5 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '10.9'
-- '10.12'  # [osx and x86_64]
 build_number_decrement:
 - '0'
 channel_sources:
@@ -13,4 +12,3 @@ macos_machine:
 - x86_64-apple-darwin13.4.0
 macos_min_version:
 - '10.9'
-- '10.12'  # [osx and x86_64]
