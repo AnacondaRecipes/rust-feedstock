@@ -6,6 +6,7 @@
 unset REQUESTS_CA_BUNDLE
 unset SSL_CERT_FILE
 
+rustc --version
 rustc --help
 rustdoc --help
 cargo --help

@@ -78,10 +78,6 @@ outputs:
       files:
         - forge_test.sh  # [not win]
       commands:
-        - rustc --version
-        - cargo --help
-        - rustc --help
-        - rustdoc --help
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
         - time bash ./forge_test.sh  # [not win]
 
