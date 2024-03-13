@@ -67,20 +67,26 @@ outputs:
   - name: rust
     script: install-msvc.bat  # [win]
     script: install-unix.sh  # [not win]
+    build:
+      run_exports:
+        strong: 
+          - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.12") }}  # [osx and x86_64]
     requirements:
       build:
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.12") }}  # [osx and x86_64]
         - {{ compiler('c') }}    # [osx]
         - posix  # [win]
     test:
       requires:
-        - __osx >=10.12 # [osx and x86_64]
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
       files:
         - forge_test.sh  # [not win]
       commands:
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
+        - rustc --version
+        - cargo --help
+        - rustc --help
+        - rustdoc --help
         - time bash ./forge_test.sh  # [not win]
 
   - name: rust-gnu  # [win]
