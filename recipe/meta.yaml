@@ -68,8 +68,7 @@ outputs:
     script: install-msvc.bat  # [win]
     script: install-unix.sh  # [not win]
     run_exports:
-      strong_constrains:
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.12") }}  # [osx and x86_64]
+      - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.12") }}  # [osx and x86_64]
     requirements:
       build:
         - {{ compiler('c') }}    # [osx]
