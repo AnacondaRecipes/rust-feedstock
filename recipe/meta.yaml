@@ -30,8 +30,8 @@ outputs:
     script: install-msvc.bat  # [win]
     script: install-unix.sh  # [not win]
     build:
-      run_exports:
-        strong: 
+      run_exports: # [osx and x86_64]
+        strong: # [osx and x86_64]
           - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.12") }}  # [osx and x86_64]
       # the distributed binaries are already relocatable
       binary_relocation: False
