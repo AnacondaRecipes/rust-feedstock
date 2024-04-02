@@ -1,28 +1,29 @@
-{% set version = "1.76.0" %}
+{% set version = "1.76.0.dev20231115" %}
+{% set nightly_date = "2023-11-15" %}
 
 package:
   name: 'rust-suite'
   version: {{ version }}
 
+# skipping s390x because nightly rust is only necessary for specific customer packages
 source:
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
-    sha256: 9d589d2036b503cc45ecc94992d616fb3deec074deb36cacc2f5c212408f7399  # [linux64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
-    sha256: 2e8313421e8fb673efdf356cdfdd4bc16516f2610d4f6faa01327983104c05a0  # [aarch64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-s390x-unknown-linux-gnu.tar.gz  # [s390x]
-    sha256: 885152d9df8a1db017a2eba315d9f6742b64d638416c1c8b7b5ed5f7cab4b7f4  # [s390x]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-apple-darwin.tar.gz  # [osx and x86_64]
-    sha256: 7bdbe085695df8e46389115e99eda7beed37a9494f6b961b45554c658e53b8e7  # [osx and x86_64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: 17496f15c3cb6ff73d5c36f5b54cc110f1ac31fa09521a7991c0d7ddd890dceb  # [osx and arm64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win64]
-    sha256: cc908e1f0625aae0da5f4a35c390828947887929af694029fc3ccdf4cc66b0dd  # [win64]
-    folder: msvc  # [win64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-gnu.tar.gz  # [win64]
-    sha256: 5a9722e73b4511d41cc70270a730f233da43c8c2e103ae469c3b62d89e78df35  # [win64]
-    folder: gnu  # [win64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
+    sha256: 9d589d2036b503cc45ecc94992d616fb3deec074deb36cacc2f5c212408f7399                                # [linux64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
+    sha256: 2e8313421e8fb673efdf356cdfdd4bc16516f2610d4f6faa01327983104c05a0                                 # [aarch64]
+  - url: https://static.rust-lang.org/dist/2023-11-15/rust-nightly-x86_64-apple-darwin.tar.gz  # [osx and x86_64]
+    sha256: 7bdbe085695df8e46389115e99eda7beed37a9494f6b961b45554c658e53b8e7                   # [osx and x86_64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-aarch64-apple-darwin.tar.gz  # [osx and arm64]
+    sha256: 17496f15c3cb6ff73d5c36f5b54cc110f1ac31fa09521a7991c0d7ddd890dceb                            # [osx and arm64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-pc-windows-msvc.tar.gz  # [win]
+    sha256: cc908e1f0625aae0da5f4a35c390828947887929af694029fc3ccdf4cc66b0dd                              # [win]
+    folder: msvc                                                                                          # [win]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win]
+    sha256: 5a9722e73b4511d41cc70270a730f233da43c8c2e103ae469c3b62d89e78df35                             # [win]
+    folder: gnu                                                                                          # [win]
 
 build:
+  skip: True  # [s390x]
   number: 0
 
 outputs:
