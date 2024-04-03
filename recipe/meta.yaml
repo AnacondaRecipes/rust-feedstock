@@ -40,37 +40,37 @@ outputs:
       runpath_whitelist:
         - $ORIGIN/../lib
       missing_dso_whitelist:
-        - /usr/lib/libresolv.9.dylib
-        - /usr/lib/libc++.1.dylib
-        - /usr/lib/libc++abi.dylib
-        - /usr/lib/libiconv.2.dylib
-        - /usr/lib/libcurl.4.dylib
-        - /usr/lib/libxar.1.dylib
-        - $RPATH/libLLVM-14-rust-1.64.0-stable.so
+        - /usr/lib/libresolv.9.dylib                                                        # [osx]
+        - /usr/lib/libc++.1.dylib                                                           # [osx]
+        - /usr/lib/libc++abi.dylib                                                          # [osx]
+        - /usr/lib/libiconv.2.dylib                                                         # [osx]
+        - /usr/lib/libcurl.4.dylib                                                          # [osx]
+        - /usr/lib/libxar.1.dylib                                                           # [osx]
+        - $RPATH/libLLVM-14-rust-1.64.0-stable.so                                           # [osx]
         # Since 1.32.0 macOS also needs:
-        - /System/Library/Frameworks/Python.framework/Versions/2.7/Python
-        - /System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols
-        - /usr/lib/libcompression.dylib
-        - /usr/lib/libedit.3.dylib
-        - /usr/lib/libform.5.4.dylib
-        - /usr/lib/libncurses.5.4.dylib
-        - /usr/lib/libpanel.5.4.dylib
-        - /usr/lib/libxml2.2.dylib
+        - /System/Library/Frameworks/Python.framework/Versions/2.7/Python                   # [osx]
+        - /System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols  # [osx]
+        - /usr/lib/libcompression.dylib                                                     # [osx]
+        - /usr/lib/libedit.3.dylib                                                          # [osx]
+        - /usr/lib/libform.5.4.dylib                                                        # [osx]
+        - /usr/lib/libncurses.5.4.dylib                                                     # [osx]
+        - /usr/lib/libpanel.5.4.dylib                                                       # [osx]
+        - /usr/lib/libxml2.2.dylib                                                          # [osx]
         # Fixed via install_name_tool now (just declaring it here meant the thing using -
         # lib/rustlib/x86_64-apple-darwin/lib/python2.7/site-packages/lldb/lldb-argdumper - was
         # still unable to find it at runtime).
         # - $RPATH/libLLVM.dylib
 
-        - '**/ld-linux-x86-64.so.2'
-        - '**/libc.so.6'
-        - '**/libdl.so.2'
-        - '**/ld64.so.*'
-        - '**/libgcc_s.so.1'
-        - '**/libm.so.6'
-        - '**/libpthread.so.0'
-        - '**/librt.so.1'
-        - '**/libgcc_s.so.1'
-        - '**/libz.so.1'
+        - '**/ld-linux-x86-64.so.2'        # [linux]
+        - '**/libc.so.6'                   # [linux]
+        - '**/libdl.so.2'                  # [linux]
+        - '**/ld64.so.*'                   # [linux]
+        - '**/libgcc_s.so.1'               # [linux]
+        - '**/libm.so.6'                   # [linux]
+        - '**/libpthread.so.0'             # [linux]
+        - '**/librt.so.1'                  # [linux]
+        - '**/libgcc_s.so.1'               # [linux]
+        - '**/libz.so.1'                   # [linux]
         # Since 1.32.0 linux also needs:
         - '**/libstdc++.so.6'
     requirements:
