@@ -40,11 +40,6 @@ outputs:
       runpath_whitelist:
         - $ORIGIN/../lib
       missing_dso_whitelist:
-        # Fixed via install_name_tool now (just declaring it here meant the thing using -
-        # lib/rustlib/x86_64-apple-darwin/lib/python2.7/site-packages/lldb/lldb-argdumper - was
-        # still unable to find it at runtime).
-        # - $RPATH/libLLVM.dylib
-
         - '**/ld-linux-x86-64.so.2'        # [linux]
         - '**/libc.so.6'                   # [linux]
         - '**/libdl.so.2'                  # [linux]
@@ -54,8 +49,6 @@ outputs:
         - '**/librt.so.1'                  # [linux]
         - '**/libgcc_s.so.1'               # [linux]
         - '**/libz.so.1'                   # [linux]
-        # # Since 1.32.0 linux also needs:
-        # - '**/libstdc++.so.6'              # [linux]
     requirements:
       build:
         - {{ compiler('c') }}    # [osx]
