@@ -87,7 +87,7 @@ about:
   home: https://www.rust-lang.org
   license: MIT AND Apache-2.0
   license_family: OTHER
-  license_file:
+  license_url:
     - https://github.com/rust-lang/rust/blob/master/COPYRIGHT
     - https://github.com/rust-lang/rust/blob/master/LICENSE-MIT
     - https://github.com/rust-lang/rust/blob/master/LICENSE-APACHE
