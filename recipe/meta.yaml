@@ -87,7 +87,10 @@ about:
   home: https://www.rust-lang.org
   license: MIT AND Apache-2.0
   license_family: OTHER
-  license_url: https://github.com/rust-lang/rust/blob/{{ version_main }}/COPYRIGHT
+  license_file:
+    - https://github.com/rust-lang/rust/blob/master/COPYRIGHT
+    - https://github.com/rust-lang/rust/blob/master/LICENSE-MIT
+    - https://github.com/rust-lang/rust/blob/master/LICENSE-APACHE
   summary: |
     Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
   description: |
