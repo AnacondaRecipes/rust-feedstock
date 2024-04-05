@@ -8,19 +8,19 @@ package:
 
 # skipping s390x because nightly rust is only necessary for specific customer packages
 source:
-  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
-    sha256: 635c4928063be3eb2217e6c7d79634d5d2861ebb6900ce6351a92f264c4dbc38                                # [linux64]
-  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
-    sha256: 1556c1fa6420099a95c822d2afe82a224e3099154672a6a1a36b96bcb1d134b3                                 # [aarch64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-unknown-linux-gnu.tar.gz  # [linux and x86_64]
+    sha256: 301318d082fcbed0dae5c71baeaf5634bcd646da9585d33544b3fb0e7beb04d7                                # [linux and x86_64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-aarch64-unknown-linux-gnu.tar.gz  # [linux and aarch64]
+    sha256: 2f856592ab8ebaae5d574d0ba522bc2bf8c10b494e201a40cacbae29787ec8d1                                 # [linux and aarch64]
   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-apple-darwin.tar.gz  # [osx and x86_64]
-    sha256: 426536321be65ba4354127ebe34473aebc3a0ad98c1f098540adc626c4453554                   # [osx and x86_64]
+    sha256: 196f0f668e092eee0b9251df2e6c8d94edb9575c2342247a934142dffdfb64fb                           # [osx and x86_64]
   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: 1bd6778d4c60494b7a9d9e08f47d2ad39074763c52e3baa017dc2221ae466db4                            # [osx and arm64]
+    sha256: 9a991332b37dd05cb76d2455c5e945b0a0efdad54478a61f9d55b062736cbd13                            # [osx and arm64]
   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-pc-windows-msvc.tar.gz  # [win]
-    sha256: 1d3b44c04a5b8ce1e7fe47bbf1c51a96e7aa31cc7770272d5b689777afe646ab                              # [win]
+    sha256: aa4f84009d29f47ad49b404dced55747ab4d8dd74ac18510c012707521f521b8                              # [win]
     folder: msvc                                                                                          # [win]
   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win]
-    sha256: 70552d0ef9c672b3e5c234bde505dfa4071a91039cc75fa7947a968c0eed90be                             # [win]
+    sha256: c5172107f02762fb264c9adb75d43fc537f4750d4af8dea7b6aa022f6c548173                             # [win]
     folder: gnu                                                                                          # [win]
 
 build:
