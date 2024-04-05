@@ -1,28 +1,30 @@
-{% set version = "1.76.0" %}
+{% set version = "1.79.0.dev20240328" %}
+{% set version_main = version[:-12] %}
+{% set nightly_date = version[10:14]+"-"+version[14:16]+"-"+version[16:18] %}
 
 package:
   name: 'rust-suite'
   version: {{ version }}
 
+# skipping s390x because nightly rust is only necessary for specific customer packages
 source:
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
-    sha256: 9d589d2036b503cc45ecc94992d616fb3deec074deb36cacc2f5c212408f7399  # [linux64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
-    sha256: 2e8313421e8fb673efdf356cdfdd4bc16516f2610d4f6faa01327983104c05a0  # [aarch64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-s390x-unknown-linux-gnu.tar.gz  # [s390x]
-    sha256: 885152d9df8a1db017a2eba315d9f6742b64d638416c1c8b7b5ed5f7cab4b7f4  # [s390x]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-apple-darwin.tar.gz  # [osx and x86_64]
-    sha256: 7bdbe085695df8e46389115e99eda7beed37a9494f6b961b45554c658e53b8e7  # [osx and x86_64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: 17496f15c3cb6ff73d5c36f5b54cc110f1ac31fa09521a7991c0d7ddd890dceb  # [osx and arm64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win64]
-    sha256: cc908e1f0625aae0da5f4a35c390828947887929af694029fc3ccdf4cc66b0dd  # [win64]
-    folder: msvc  # [win64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-gnu.tar.gz  # [win64]
-    sha256: 5a9722e73b4511d41cc70270a730f233da43c8c2e103ae469c3b62d89e78df35  # [win64]
-    folder: gnu  # [win64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-unknown-linux-gnu.tar.gz  # [linux and x86_64]
+    sha256: 301318d082fcbed0dae5c71baeaf5634bcd646da9585d33544b3fb0e7beb04d7                                # [linux and x86_64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-aarch64-unknown-linux-gnu.tar.gz  # [linux and aarch64]
+    sha256: 2f856592ab8ebaae5d574d0ba522bc2bf8c10b494e201a40cacbae29787ec8d1                                 # [linux and aarch64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-apple-darwin.tar.gz  # [osx and x86_64]
+    sha256: 196f0f668e092eee0b9251df2e6c8d94edb9575c2342247a934142dffdfb64fb                           # [osx and x86_64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-aarch64-apple-darwin.tar.gz  # [osx and arm64]
+    sha256: 9a991332b37dd05cb76d2455c5e945b0a0efdad54478a61f9d55b062736cbd13                            # [osx and arm64]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-pc-windows-msvc.tar.gz  # [win]
+    sha256: aa4f84009d29f47ad49b404dced55747ab4d8dd74ac18510c012707521f521b8                              # [win]
+    folder: msvc                                                                                          # [win]
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win]
+    sha256: c5172107f02762fb264c9adb75d43fc537f4750d4af8dea7b6aa022f6c548173                             # [win]
+    folder: gnu                                                                                          # [win]
 
 build:
+  skip: True  # [s390x]
   number: 0
 
 outputs:
@@ -38,39 +40,15 @@ outputs:
       runpath_whitelist:
         - $ORIGIN/../lib
       missing_dso_whitelist:
-        - /usr/lib/libresolv.9.dylib
-        - /usr/lib/libc++.1.dylib
-        - /usr/lib/libc++abi.dylib
-        - /usr/lib/libiconv.2.dylib
-        - /usr/lib/libcurl.4.dylib
-        - /usr/lib/libxar.1.dylib
-        - $RPATH/libLLVM-14-rust-1.64.0-stable.so
-        # Since 1.32.0 macOS also needs:
-        - /System/Library/Frameworks/Python.framework/Versions/2.7/Python
-        - /System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols
-        - /usr/lib/libcompression.dylib
-        - /usr/lib/libedit.3.dylib
-        - /usr/lib/libform.5.4.dylib
-        - /usr/lib/libncurses.5.4.dylib
-        - /usr/lib/libpanel.5.4.dylib
-        - /usr/lib/libxml2.2.dylib
-        # Fixed via install_name_tool now (just declaring it here meant the thing using -
-        # lib/rustlib/x86_64-apple-darwin/lib/python2.7/site-packages/lldb/lldb-argdumper - was
-        # still unable to find it at runtime).
-        # - $RPATH/libLLVM.dylib
-
-        - '**/ld-linux-x86-64.so.2'
-        - '**/libc.so.6'
-        - '**/libdl.so.2'
-        - '**/ld64.so.*'
-        - '**/libgcc_s.so.1'
-        - '**/libm.so.6'
-        - '**/libpthread.so.0'
-        - '**/librt.so.1'
-        - '**/libgcc_s.so.1'
-        - '**/libz.so.1'
-        # Since 1.32.0 linux also needs:
-        - '**/libstdc++.so.6'
+        - '**/ld-linux-x86-64.so.2'        # [linux]
+        - '**/libc.so.6'                   # [linux]
+        - '**/libdl.so.2'                  # [linux]
+        - '**/ld64.so.*'                   # [linux]
+        - '**/libm.so.6'                   # [linux]
+        - '**/libpthread.so.0'             # [linux]
+        - '**/librt.so.1'                  # [linux]
+        - '**/libgcc_s.so.1'               # [linux]
+        - '**/libz.so.1'                   # [linux]
     requirements:
       build:
         - {{ compiler('c') }}    # [osx]
@@ -109,7 +87,10 @@ about:
   home: https://www.rust-lang.org
   license: MIT AND Apache-2.0
   license_family: OTHER
-  license_url: https://github.com/rust-lang/rust/blob/{{ version }}/COPYRIGHT
+  license_url:
+    - https://github.com/rust-lang/rust/blob/master/COPYRIGHT
+    - https://github.com/rust-lang/rust/blob/master/LICENSE-MIT
+    - https://github.com/rust-lang/rust/blob/master/LICENSE-APACHE
   summary: |
     Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
   description: |
