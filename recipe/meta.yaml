@@ -25,7 +25,7 @@ source:
 
 build:
   skip: True  # [s390x]
-  number: 0
+  number: 1
 
 outputs:
   - name: rust
