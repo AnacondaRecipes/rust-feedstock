@@ -22,6 +22,13 @@ source:
   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win]
     sha256: c5172107f02762fb264c9adb75d43fc537f4750d4af8dea7b6aa022f6c548173                             # [win]
     folder: gnu                                                                                          # [win]
+  # rust std sources
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-std-nightly-x86_64-pc-windows-msvc.tar.gz
+    sha256: c7ee1679cf7124df1ecbb15e46f41e918e1e1f57cbf7591c5db66ba1008eb3f3
+    folder: rust-std
+  - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-src-nightly.tar.gz
+    sha256: 0ecce089887e515c435bd2ac4d996de29e16c1d54de3911025c07b9df295ecd9
+    folder: rust-src
 
 build:
   skip: True  # [s390x]
@@ -82,6 +89,37 @@ outputs:
         - rustc --help  # [win]
         - rustdoc --help  # [win]
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
+
+  - name: rust-std
+    build:
+      binary_relocation: false
+      missing_dso_whitelist:           # [linux]
+        - /lib64/librt.so.1            # [linux]
+        - /lib64/libdl.so.2            # [linux]
+        - /lib64/libpthread.so.0       # [linux]
+        - /lib64/libm.so.6             # [linux]
+        - /lib64/libc.so.6             # [linux]
+        - /lib64/ld-linux-x86-64.so.2  # [linux]
+      merge_build_host: false
+    requirements:
+      build:
+        - posix  # [build_platform == "win-64"]
+      host:
+      run:
+        # The directory structure of windows and unix is different.
+        # We should not install the bundled rust-std-x86_64-pc-windows-msvc from this output on unix for example.
+        - __unix  # [unix]
+        - __win  # [win]
+      run_constrained:
+        # Having different versions of rust-std and rust is confusing.
+        - {{ pin_subpackage("rust", min_pin="x.x.x", max_pin="x.x.x") }}
+    script: install-rust-std.sh  # [unix]
+    script: install-rust-std.bat  # [win]
+    test:
+      commands:
+        - test -d $PREFIX/lib/rustlib   # [unix]
+        - if not exist %LIBRARY_PREFIX%/lib/rustlib exit 1  # [win]
+        - echo {{ rust_arch }}
 
 about:
   home: https://www.rust-lang.org
