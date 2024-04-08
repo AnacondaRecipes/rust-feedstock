@@ -1,7 +1,6 @@
 {% set version = "1.79.0.dev20240328" %}
 {% set version_main = version[:-12] %}
 {% set nightly_date = version[10:14]+"-"+version[14:16]+"-"+version[16:18] %}
-#{% set nightly_date = "2024-03-10" %}
 
 package:
   name: 'rust-suite'
@@ -23,27 +22,6 @@ source:
   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win]
     sha256: c5172107f02762fb264c9adb75d43fc537f4750d4af8dea7b6aa022f6c548173                             # [win]
     folder: gnu                                                                                          # [win]
-#   # rust std sources
-#   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-std-nightly-x86_64-unknown-linux-gnu.tar.gz  # [linux and x86_64]
-#     sha256: 301318d082fcbed0dae5c71baeaf5634bcd646da9585d33544b3fb0e7beb04d7                                    # [linux and x86_64]
-#   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-std-nightly-aarch64-unknown-linux-gnu.tar.gz  # [linux and aarch64]
-#     sha256: 2f856592ab8ebaae5d574d0ba522bc2bf8c10b494e201a40cacbae29787ec8d1                                 # [linux and aarch64]
-#   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-std-nightly-x86_64-apple-darwin.tar.gz  # [osx and arm64]
-#     sha256: 670f13670ec1a1347b2112c07de856a0b46f2c523249d9e0d28b4cb538b76805                               # [osx and arm64]
-#     folder: rust-std                                                                                       # [osx and arm64]
-#   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-std-nightly-aarch64-apple-darwin.tar.gz  # [osx and x86_64]
-#     sha256: 670f13670ec1a1347b2112c07de856a0b46f2c523249d9e0d28b4cb538b76805                                # [osx and x86_64]
-#     folder: rust-std                                                                                        # [osx and x86_64]
-#   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-std-nightly-x86_64-pc-windows-msvc.tar.gz  # [win]
-#     sha256: 670f13670ec1a1347b2112c07de856a0b46f2c523249d9e0d28b4cb538b76805                                  # [win]
-#     folder: rust-std                                                                                          # [win]
-#   # rust src sources
-#   - url: https://static.rust-lang.org/dist/{{ nightly_date }}/rust-src-nightly.tar.gz
-#     sha256: 0ecce089887e515c435bd2ac4d996de29e16c1d54de3911025c07b9df295ecd9
-#     folder: rust-src
-
-  #   patches:
-  #     - 0001-gh-106-install.sh-Perfomance-Use-more-shell-builtins.diff
 
 build:
   skip: True  # [s390x]
@@ -104,37 +82,6 @@ outputs:
         - rustc --help  # [win]
         - rustdoc --help  # [win]
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
-
-  # - name: rust-std
-  #   build:
-  #     binary_relocation: false
-  #     missing_dso_whitelist:           # [linux]
-  #       - /lib64/librt.so.1            # [linux]
-  #       - /lib64/libdl.so.2            # [linux]
-  #       - /lib64/libpthread.so.0       # [linux]
-  #       - /lib64/libm.so.6             # [linux]
-  #       - /lib64/libc.so.6             # [linux]
-  #       - /lib64/ld-linux-x86-64.so.2  # [linux]
-  #     merge_build_host: false
-  #   requirements:
-  #     build:
-  #       - posix  # [build_platform == "win-64"]
-  #     host:
-  #     run:
-  #       # The directory structure of windows and unix is different.
-  #       # We should not install the bundled rust-std-x86_64-pc-windows-msvc from this output on unix for example.
-  #       - __unix  # [unix]
-  #       - __win  # [win]
-  #     run_constrained:
-  #       # Having different versions of rust-std and rust is confusing.
-  #       - {{ pin_subpackage("rust", min_pin="x.x.x", max_pin="x.x.x") }}
-  #   script: install-rust-std.sh  # [unix]
-  #   script: install-rust-std.bat  # [win]
-  #   test:
-  #     commands:
-  #       - test -d $PREFIX/lib/rustlib   # [unix]
-  #       - if not exist %LIBRARY_PREFIX%/lib/rustlib exit 1  # [win]
-  #       - echo {{ rust_arch }}
 
 about:
   home: https://www.rust-lang.org
