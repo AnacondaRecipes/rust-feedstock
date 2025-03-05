@@ -5,6 +5,7 @@ package:
   version: {{ version }}
 
 source:
+    #### start of main rust toolchain sources
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
     sha256: 0265c08ae997c4de965048a244605fb1f24a600bbe35047b811c638b8fcf676b  # [linux64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
@@ -15,12 +16,26 @@ source:
     sha256: b1a289cabc523f259f65116a41374ac159d72fbbf6c373bd5e545c8e835ceb6a  # [osx and x86_64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
     sha256: 49b6d36b308addcfd21ae56c94957688338ba7b8985bff57fc626c8e1b32f62c  # [osx and arm64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win64]
-    sha256: b5fac89899343fbc1b8438ff87b77cddaed90a75873db7b01f2c197a26ec9d52  # [win64]
-    folder: msvc  # [win64]
+  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win]
+    sha256: b5fac89899343fbc1b8438ff87b77cddaed90a75873db7b01f2c197a26ec9d52  # [win]
+    folder: msvc  # [win]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-gnu.tar.gz  # [win64]
     sha256: 23149a74246f2a50b6ff5d5c2ec3a1a65634bc207ab1267427e9c7ad6830374d  # [win64]
-    folder: gnu  # [win64]
+    folder: gnu  # [win]
+    #### end of main rust toolchain sources
+    #### start of rust-std toolchain sources
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux and x86_64]
+    sha256: e7e808b8745298369fa3bbc3c0b7af9ca0fb995661bd684a7022d14bc9ae0057  # [linux and x86_64]
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [linux and aarch64]
+    sha256: 82b2308ee531775bf4d1faa57bddfae85f363bec43ca36ba6db4ebad7c1450d4  # [linux and aarch64]
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-x86_64-apple-darwin.tar.gz  # [osx and x86_64]
+    sha256: 52084c8cdb34ca139a00f9f03f1a582d96b677e9f223a8d1aa31ae575a06cc16  # [osx and x86_64]
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
+    sha256: 5ec28e75ed8715efaa2490d76ae026a34b13df6899d98b14d0a6995556f4e6b4  # [osx and arm64]
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win]
+    sha256: afe8fbf37001f559cbddc7c786db50946d3f483f12a290115ee1ef8fff10a833  # [win]
+    folder: msvc  # [win]
+    #### end of rust-std toolchain sources
 
 build:
   number: 0
@@ -105,6 +120,24 @@ outputs:
         - rustc --help  # [win]
         - rustdoc --help  # [win]
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
+
+  - name: rust-std-{{ rust_arch }}
+    build:
+      noarch: generic
+      binary_relocation: False
+    requirements:
+      build:
+        - posix  # [win]
+      host:
+      run:
+      run_constrained:
+        # Having different versions of rust-std and rust is confusing.
+        - {{ pin_subpackage("rust", min_pin="x.x.x", max_pin="x.x.x") }}
+    script: ./install.sh --prefix="${PREFIX}"  # [unix]
+    script: install-msvc.bat  # [win]
+    test:
+      commands:
+        - test -d $PREFIX/lib/rustlib
 
 about:
   home: https://www.rust-lang.org
