@@ -40,6 +40,14 @@ source:
     sha256: afe8fbf37001f559cbddc7c786db50946d3f483f12a290115ee1ef8fff10a833  # [win]
     folder: rust-std  # [win]
     #### end of rust-std toolchain sources
+    #### start of rust-std-extra toolchain sources
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip1.gz
+    sha256: 41cce791e0b2e27838f9ef09707605bb2d4571293fc0e157cd260a0adc90a628
+    folder: rust-std-{{ rust_std_extra }}
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip2.gz
+    sha256: 41cce791e0b2e27838f9ef09707605bb2d4571293fc0e157cd260a0adc90a628
+    folder: rust-std-{{ rust_std_extra }}
+    #### end of rust-std-extra toolchain sources
 
 build:
   number: 0
@@ -138,6 +146,23 @@ outputs:
     test:
       commands:
         - test -d $PREFIX/lib/rustlib
+
+  - name: rust-std-{{ rust_std_extra }}
+    script: cd rust-std-{{ rust_std_extra }} && ./install.sh --prefix="${PREFIX}"  # [unix]
+    script: install-msvc.bat  # [win]
+    requirements:
+      build:
+        - posix  # [win]
+      run:
+        # Having different versions of rust-std and rust is confusing.
+        - {{ pin_subpackage("rust-std", min_pin="x.x.x", max_pin="x.x.x") }}
+    test:
+      commands:
+        - test -d $PREFIX/lib/rustlib/{{ rust_std_extra }}  # [unix]
+        - if not exist "%LIBRARY_PREFIX%/lib/rustlib/{{ rust_std_extra }}" exit 1  # [win]
+        # Make sure that the outputs do not clobber with other rust components
+        - test -z "$(ls "${PREFIX}"/lib/rustlib/ | grep -v {{ rust_std_extra }})"  # [unix]
+        - dir /b "%LIBRARY_PREFIX%" | findstr /v "{{ rust_std_extra }}" >nul || exit 1  # [win]
 
 about:
   home: https://www.rust-lang.org
