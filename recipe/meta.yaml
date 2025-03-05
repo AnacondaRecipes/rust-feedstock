@@ -136,13 +136,13 @@ outputs:
   - name: rust-std-{{ rust_arch }}
     build:
       binary_relocation: False
-    script: cd rust-std-=- && ./install.sh --prefix="${PREFIX}"  # [unix]
+    script: cd rust-std && ./install.sh --prefix="${PREFIX}"  # [unix]
     script: install-msvc.bat  # [win]
     requirements:
       build:
         - posix  # [win]
       run:
-        - {{ pin_subpackage("rust", exact=True") }}
+        - {{ pin_subpackage("rust", exact=True) }}
     test:
       commands:
         - test -d $PREFIX/lib/rustlib
