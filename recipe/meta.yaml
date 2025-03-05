@@ -128,11 +128,8 @@ outputs:
     requirements:
       build:
         - posix  # [win]
-      host:
       run:
-      run_constrained:
-        # Having different versions of rust-std and rust is confusing.
-        - {{ pin_subpackage("rust", min_pin="x.x.x", max_pin="x.x.x") }}
+        - {{ pin_subpackage("rust-std-" ~ rust_arch, exact=True) }}
     script: ./install.sh --prefix="${PREFIX}"  # [unix]
     script: install-msvc.bat  # [win]
     test:
