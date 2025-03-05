@@ -142,7 +142,7 @@ outputs:
       build:
         - posix  # [win]
       run:
-        - {{ pin_subpackage("rust-std-" ~ rust_arch, exact=True) }}
+        - {{ pin_subpackage("rust", exact=True") }}
     test:
       commands:
         - test -d $PREFIX/lib/rustlib
@@ -154,8 +154,7 @@ outputs:
       build:
         - posix  # [win]
       run:
-        # Having different versions of rust-std and rust is confusing.
-        - {{ pin_subpackage("rust-std", min_pin="x.x.x", max_pin="x.x.x") }}
+        - {{ pin_subpackage("rust-std-" ~ rust_arch, exact=True) }}
     test:
       commands:
         - test -d $PREFIX/lib/rustlib/{{ rust_std_extra }}  # [unix]
