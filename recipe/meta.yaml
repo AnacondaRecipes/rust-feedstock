@@ -41,12 +41,12 @@ source:
     folder: rust-std  # [win]
     #### end of rust-std toolchain sources
     #### start of rust-std-extra toolchain sources
-  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip1.gz
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip1.tar.gz
     sha256: 41cce791e0b2e27838f9ef09707605bb2d4571293fc0e157cd260a0adc90a628
-    folder: rust-std-{{ rust_std_extra }}
-  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip2.gz
-    sha256: 41cce791e0b2e27838f9ef09707605bb2d4571293fc0e157cd260a0adc90a628
-    folder: rust-std-{{ rust_std_extra }}
+    folder: rust-std-wasm32-wasip1
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip2.tar.gz
+    sha256: 5ee71ee1909e1bd960977b3f2c0bc25e77aae5c447bbc6802a19495f7f30538f
+    folder: rust-std-wasm32-wasip2
     #### end of rust-std-extra toolchain sources
 
 build:
