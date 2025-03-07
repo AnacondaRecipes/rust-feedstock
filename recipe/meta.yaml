@@ -145,7 +145,11 @@ outputs:
         - {{ pin_subpackage("rust", exact=True) }}
     test:
       commands:
-        - test -d $PREFIX/lib/rustlib
+        - test -f $PREFIX/lib/rustlib/{{ rust_arch }}/lib/libcore*.rlib  # [unix]
+        - if not exist "%LIBRARY_PREFIX%/lib/rustlib/{{ rust_arch }}/lib/libcore*.rlib" exit /B 1  # [win]
+        # Make sure that the outputs do not clobber with other rust components
+        - test ! -f $PREFIX/lib/rustlib/{{ rust_arch }}/lib/self-contained/libc.a  # [unix]
+        - if test "%LIBRARY_PREFIX%//lib/rustlib/{{ rust_arch }}/lib/self-contained/libc.a" exit /B 1  # [win]
 
   - name: rust-std-{{ rust_std_extra }}
     script: install-rust-std-extra.sh  # [unix]
@@ -157,11 +161,11 @@ outputs:
         - {{ pin_subpackage("rust-std-" ~ rust_arch, exact=True) }}
     test:
       commands:
-        - test -d $PREFIX/lib/rustlib/{{ rust_std_extra }}  # [unix]
-        - if not exist "%LIBRARY_PREFIX%/lib/rustlib/{{ rust_std_extra }}" exit 1  # [win]
+        - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/libcore*.rlib  # [unix]
+        - if not exist "%LIBRARY_PREFIX%/lib/rustlib/{{ rust_std_extra }}/lib/libcore*.rlib" exit /B 1  # [win]
         # Make sure that the outputs do not clobber with other rust components
-        - test -z "$(ls "${PREFIX}"/lib/rustlib/ | grep -v {{ rust_std_extra }})"  # [unix]
-        - dir /b "%LIBRARY_PREFIX%" | findstr /v "{{ rust_std_extra }}" >nul || exit 1  # [win]
+        - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a  # [unix]
+        - if not test "%LIBRARY_PREFIX%//lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a" exit /B 1  # [win]
 
 about:
   home: https://www.rust-lang.org
