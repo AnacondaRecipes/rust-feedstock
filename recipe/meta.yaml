@@ -136,6 +136,13 @@ outputs:
   - name: rust-std-{{ rust_arch }}
     build:
       binary_relocation: False
+      runpath_whitelist:
+        - $ORIGIN/../lib
+      missing_dso_whitelist:
+        - '/**/libgcc_s.so.*'
+        - '/**/libpthread.so.*'
+        - '/**/libdl.so.*'
+        - '/**/libc.so.*'
     script: install-rust-std.sh  # [unix]
     script: install-msvc.bat  # [win]
     requirements:
@@ -152,6 +159,17 @@ outputs:
         - if test "%LIBRARY_PREFIX%//lib/rustlib/{{ rust_arch }}/lib/self-contained/libc.a" exit /B 1  # [win]
 
   - name: rust-std-{{ rust_std_extra }}
+    build:
+      binary_relocation: False
+      runpath_whitelist:
+        - $ORIGIN/../lib
+      missing_dso_whitelist:
+        - '/**/libgcc_s.so.*'
+        - '/**/librt.so.*'
+        - '/**/libpthread.so.*'
+        - '/**/libdl.so.*'
+        - '/**/libc.so.*'
+        - '/**/ld-linux-x86-64.so.*'
     script: install-rust-std-extra.sh  # [unix]
     script: install-msvc.bat  # [win]
     requirements:
