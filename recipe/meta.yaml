@@ -139,10 +139,12 @@ outputs:
       runpath_whitelist:
         - $ORIGIN/../lib
       missing_dso_whitelist:
-        - '/**/libgcc_s.so.*'
-        - '/**/libpthread.so.*'
-        - '/**/libdl.so.*'
-        - '/**/libc.so.*'
+        - "/lib64/libgcc_s.so.*"
+        - "/lib64/librt.so.*"
+        - "/lib64/libpthread.so.*"
+        - "/lib64/libdl.so.*"
+        - "/lib64/libc.so.*"
+        - "/lib64/ld-linux-x86-64.so.*"  # [linux and x86_64]
     script: install-rust-std.sh  # [unix]
     script: install-msvc.bat  # [win]
     requirements:
@@ -164,12 +166,12 @@ outputs:
       runpath_whitelist:
         - $ORIGIN/../lib
       missing_dso_whitelist:
-        - '/**/libgcc_s.so.*'
-        - '/**/librt.so.*'
-        - '/**/libpthread.so.*'
-        - '/**/libdl.so.*'
-        - '/**/libc.so.*'
-        - '/**/ld-linux-x86-64.so.*'
+        - "/lib64/libgcc_s.so.*"
+        - "/lib64/librt.so.*"
+        - "/lib64/libpthread.so.*"
+        - "/lib64/libdl.so.*"
+        - "/lib64/libc.so.*"
+        - "/lib64/ld-linux-x86-64.so.*"  # [linux and x86_64]
     script: install-rust-std-extra.sh  # [unix]
     script: install-msvc.bat  # [win]
     requirements:
