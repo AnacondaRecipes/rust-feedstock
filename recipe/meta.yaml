@@ -37,7 +37,7 @@ source:
     sha256: 5ec28e75ed8715efaa2490d76ae026a34b13df6899d98b14d0a6995556f4e6b4  # [osx and arm64]
     folder: rust-std  # [osx and arm64]
   - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win]
-    sha256: afe8fbf37001f559cbddc7c786db50946d3f483f12a290115ee1ef8fff10a833  # [win]
+    sha256: e579f3ac4c546e68b4decffa64f2e9a98fe32a373fd5cc89b0449ca57528b1b8  # [win]
     folder: rust-std  # [win]
     #### end of rust-std toolchain sources
     #### start of rust-std-extra toolchain sources
