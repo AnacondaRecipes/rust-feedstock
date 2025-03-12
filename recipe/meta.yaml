@@ -162,6 +162,7 @@ outputs:
 
   - name: rust-std-{{ rust_std_extra }}
     build:
+      noarch: generic
       binary_relocation: False
       runpath_whitelist:
         - $ORIGIN/../lib
