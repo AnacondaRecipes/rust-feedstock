@@ -187,6 +187,11 @@ outputs:
         - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a  # [unix]
         - if not test "%LIBRARY_PREFIX%//lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a" exit /B 1  # [win]
 
+  - name: rust-std-host
+    requirements:
+      run:
+        - {{ pin_subpackage("rust-std-" ~ rust_arch, exact=True) }}
+
 about:
   home: https://www.rust-lang.org
   license: MIT AND Apache-2.0
