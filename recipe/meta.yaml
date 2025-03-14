@@ -23,23 +23,6 @@ source:
     sha256: 23149a74246f2a50b6ff5d5c2ec3a1a65634bc207ab1267427e9c7ad6830374d  # [win64]
     folder: gnu  # [win]
     #### end of main rust toolchain sources
-    #### start of rust-std toolchain sources
-  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux and x86_64]
-    sha256: e7e808b8745298369fa3bbc3c0b7af9ca0fb995661bd684a7022d14bc9ae0057  # [linux and x86_64]
-    folder: rust-std  # [linux and x86_64]
-  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [linux and aarch64]
-    sha256: 82b2308ee531775bf4d1faa57bddfae85f363bec43ca36ba6db4ebad7c1450d4  # [linux and aarch64]
-    folder: rust-std  # [linux and aarch64]
-  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-x86_64-apple-darwin.tar.gz  # [osx and x86_64]
-    sha256: 52084c8cdb34ca139a00f9f03f1a582d96b677e9f223a8d1aa31ae575a06cc16  # [osx and x86_64]
-    folder: rust-std  # [osx and x86_64]
-  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: 5ec28e75ed8715efaa2490d76ae026a34b13df6899d98b14d0a6995556f4e6b4  # [osx and arm64]
-    folder: rust-std  # [osx and arm64]
-  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win]
-    sha256: e579f3ac4c546e68b4decffa64f2e9a98fe32a373fd5cc89b0449ca57528b1b8  # [win]
-    folder: rust-std  # [win]
-    #### end of rust-std toolchain sources
     #### start of rust-std-extra toolchain sources
   - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip1.tar.gz
     sha256: 41cce791e0b2e27838f9ef09707605bb2d4571293fc0e157cd260a0adc90a628
@@ -133,33 +116,6 @@ outputs:
         - rustdoc --help  # [win]
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
 
-  - name: rust-std-{{ rust_arch }}
-    build:
-      binary_relocation: False
-      runpath_whitelist:
-        - $ORIGIN/../lib
-      missing_dso_whitelist:
-        - "/lib64/libgcc_s.so.*"
-        - "/lib64/librt.so.*"
-        - "/lib64/libpthread.so.*"
-        - "/lib64/libdl.so.*"
-        - "/lib64/libc.so.*"
-        - "/lib64/ld-linux-x86-64.so.*"  # [linux and x86_64]
-    script: install-rust-std.sh  # [unix]
-    script: install-msvc.bat  # [win]
-    requirements:
-      build:
-        - posix  # [win]
-      run:
-        - {{ pin_subpackage("rust", exact=True) }}
-    test:
-      commands:
-        - test -f $PREFIX/lib/rustlib/{{ rust_arch }}/lib/libcore*.rlib  # [unix]
-        - if not exist "%LIBRARY_PREFIX%/lib/rustlib/{{ rust_arch }}/lib/libcore*.rlib" exit /B 1  # [win]
-        # Make sure that the outputs do not clobber with other rust components
-        - test ! -f $PREFIX/lib/rustlib/{{ rust_arch }}/lib/self-contained/libc.a  # [unix]
-        - if test "%LIBRARY_PREFIX%//lib/rustlib/{{ rust_arch }}/lib/self-contained/libc.a" exit /B 1  # [win]
-
   - name: rust-std-{{ rust_std_extra }}
     build:
       noarch: generic
@@ -188,11 +144,6 @@ outputs:
         # Make sure that the outputs do not clobber with other rust components
         - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a  # [unix]
         - if not test "%LIBRARY_PREFIX%//lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a" exit /B 1  # [win]
-
-  - name: rust-std-host
-    requirements:
-      run:
-        - {{ pin_subpackage("rust-std-" ~ rust_arch, exact=True) }}
 
 about:
   home: https://www.rust-lang.org
