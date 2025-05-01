@@ -139,6 +139,7 @@ outputs:
         - posix  # [win]
     test:
       commands:
+        - echo ON  # [win]
         - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/libcore*.rlib  # [unix]
         - if not exist "%LIBRARY_PREFIX%/lib/rustlib/{{ rust_std_extra }}/lib/libcore*.rlib" exit /B 1  # [win]
         # Make sure that the outputs do not clobber with other rust components
