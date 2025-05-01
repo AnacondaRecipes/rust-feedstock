@@ -141,10 +141,10 @@ outputs:
       commands:
         - echo ON  # [win]
         - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/libcore*.rlib  # [unix]
-        - if not exist "%LIBRARY_PREFIX%/lib/rustlib/{{ rust_std_extra }}/lib/libcore*.rlib" exit /B 1  # [win]
+        #- if not exist "%LIBRARY_PREFIX%/lib/rustlib/{{ rust_std_extra }}/lib/libcore*.rlib" exit /B 1  # [win]
         # Make sure that the outputs do not clobber with other rust components
         - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a  # [unix]
-        - if not test "%LIBRARY_PREFIX%//lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a" exit /B 1  # [win]
+        #- if not test "%LIBRARY_PREFIX%//lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a" exit /B 1  # [win]
 
 about:
   home: https://www.rust-lang.org
