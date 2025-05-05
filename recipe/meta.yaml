@@ -5,6 +5,7 @@ package:
   version: {{ version }}
 
 source:
+    #### start of main rust toolchain sources
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
     sha256: 0265c08ae997c4de965048a244605fb1f24a600bbe35047b811c638b8fcf676b  # [linux64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
@@ -15,15 +16,24 @@ source:
     sha256: b1a289cabc523f259f65116a41374ac159d72fbbf6c373bd5e545c8e835ceb6a  # [osx and x86_64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
     sha256: 49b6d36b308addcfd21ae56c94957688338ba7b8985bff57fc626c8e1b32f62c  # [osx and arm64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win64]
-    sha256: b5fac89899343fbc1b8438ff87b77cddaed90a75873db7b01f2c197a26ec9d52  # [win64]
-    folder: msvc  # [win64]
+  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win]
+    sha256: b5fac89899343fbc1b8438ff87b77cddaed90a75873db7b01f2c197a26ec9d52  # [win]
+    folder: msvc  # [win]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-gnu.tar.gz  # [win64]
     sha256: 23149a74246f2a50b6ff5d5c2ec3a1a65634bc207ab1267427e9c7ad6830374d  # [win64]
-    folder: gnu  # [win64]
+    folder: gnu  # [win]
+    #### end of main rust toolchain sources
+    #### start of rust-std-extra toolchain sources
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip1.tar.gz
+    sha256: 41cce791e0b2e27838f9ef09707605bb2d4571293fc0e157cd260a0adc90a628
+    folder: rust-std-wasm32-wasip1
+  - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip2.tar.gz
+    sha256: 5ee71ee1909e1bd960977b3f2c0bc25e77aae5c447bbc6802a19495f7f30538f
+    folder: rust-std-wasm32-wasip2
+    #### end of rust-std-extra toolchain sources
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: rust
@@ -105,6 +115,37 @@ outputs:
         - rustc --help  # [win]
         - rustdoc --help  # [win]
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
+
+  - name: rust-std-{{ rust_std_extra }}
+    build:
+      noarch: generic
+      binary_relocation: False
+      runpath_whitelist:
+        - $ORIGIN/../lib
+      missing_dso_whitelist:
+        - "/lib64/libgcc_s.so.*"
+        - "/lib64/librt.so.*"
+        - "/lib64/libpthread.so.*"
+        - "/lib64/libdl.so.*"
+        - "/lib64/libc.so.*"
+        - "/lib64/ld-linux-x86-64.so.*"  # [linux and x86_64]
+      run_exports:
+        strong:
+          - {{ pin_subpackage("rust", exact=True) }}
+    script: install-rust-std-extra.sh  # [unix]
+    script: install-msvc.bat  # [win]
+    requirements:
+      build:
+        - posix  # [win]
+    test:
+      commands:
+        - echo ON  # [win]
+        - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/libcore*.rlib  # [unix]
+        # Make sure that the outputs do not clobber with other rust components
+        - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a  # [unix]
+        - rustc --print target-list | grep {{ rust_std_extra }}  # [unix]
+      requires:
+        - {{ pin_subpackage('rust', exact=True) }}  # [unix]
 
 about:
   home: https://www.rust-lang.org
