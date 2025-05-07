@@ -118,7 +118,6 @@ outputs:
 
   - name: rust-std-{{ rust_std_extra }}
     build:
-      #noarch: generic
       binary_relocation: False
       runpath_whitelist:
         - $ORIGIN/../lib
@@ -129,9 +128,6 @@ outputs:
         - "/lib64/libdl.so.*"
         - "/lib64/libc.so.*"
         - "/lib64/ld-linux-x86-64.so.*"  # [linux and x86_64]
-      #run_exports:
-      #  strong:
-      #    - {{ pin_subpackage("rust", exact=True) }}
     script: install-rust-std-extra.sh  # [unix]
     script: install-msvc.bat  # [win]
     requirements:
