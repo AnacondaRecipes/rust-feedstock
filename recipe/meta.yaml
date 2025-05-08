@@ -132,7 +132,7 @@ outputs:
         strong:
           - {{ pin_subpackage("rust", exact=True) }}
     script: install-rust-std-extra.sh  # [unix]
-    script: install-msvc.bat  # [win]
+    script: install-rust-std-extra.bat  # [win]
     requirements:
       build:
         - posix  # [win]
