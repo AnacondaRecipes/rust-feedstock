@@ -33,7 +33,7 @@ source:
     #### end of rust-std-extra toolchain sources
 
 build:
-  number: 1
+  number: 2
 
 outputs:
   - name: rust
@@ -118,7 +118,6 @@ outputs:
 
   - name: rust-std-{{ rust_std_extra }}
     build:
-      noarch: generic
       binary_relocation: False
       runpath_whitelist:
         - $ORIGIN/../lib
@@ -133,7 +132,7 @@ outputs:
         strong:
           - {{ pin_subpackage("rust", exact=True) }}
     script: install-rust-std-extra.sh  # [unix]
-    script: install-msvc.bat  # [win]
+    script: install-rust-std-extra.bat  # [win]
     requirements:
       build:
         - posix  # [win]
