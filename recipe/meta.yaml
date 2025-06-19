@@ -1,4 +1,4 @@
-{% set version = "1.87.0" %}
+{% set version = "1.82.0" %}
 
 package:
   name: 'rust-suite'
@@ -7,31 +7,33 @@ package:
 source:
     #### start of main rust toolchain sources
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
-    sha256: 1f6f18ce19387c42968a474cf175e67f99280614ded9c752d5d2e37af3204bcd  # [linux64]
+    sha256: 0265c08ae997c4de965048a244605fb1f24a600bbe35047b811c638b8fcf676b  # [linux64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
-    sha256: 2c66e31d774a0dcd4422db74584ebc6362ff3ae90c452caff9d2fb912c821e8d  # [aarch64]
+    sha256: d7db04fce65b5f73282941f3f1df5893be9810af17eb7c65b2e614461fe31a48  # [aarch64]
+  - url: https://static.rust-lang.org/dist/rust-{{ version }}-s390x-unknown-linux-gnu.tar.gz  # [s390x]
+    sha256: 63760886a9b2de6cb38f75a236db358939d904e205e1e2bc9d96cec69e00ae83  # [s390x]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-apple-darwin.tar.gz  # [osx and x86_64]
-    sha256: 867a84a93c6ba0b468b78b52004a6307d6f5e2e5598e64f65726c6810b6f7c82  # [osx and x86_64]
+    sha256: b1a289cabc523f259f65116a41374ac159d72fbbf6c373bd5e545c8e835ceb6a  # [osx and x86_64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: 249496972e6f845f052036b9d7e73f816418412de2b266ec717b9050c1810dc3  # [osx and arm64]
+    sha256: 49b6d36b308addcfd21ae56c94957688338ba7b8985bff57fc626c8e1b32f62c  # [osx and arm64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win]
-    sha256: 05216dee147b79705629dbf75dee172bf98f316b5c5d038541e60c4a55796cb4  # [win]
+    sha256: b5fac89899343fbc1b8438ff87b77cddaed90a75873db7b01f2c197a26ec9d52  # [win]
     folder: msvc  # [win]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-gnu.tar.gz  # [win64]
-    sha256: 824eeb48568ed3c7da7c1cd06e3cad2077dbdfbb515be39830dfbc53576d49b4  # [win64]
+    sha256: 23149a74246f2a50b6ff5d5c2ec3a1a65634bc207ab1267427e9c7ad6830374d  # [win64]
     folder: gnu  # [win]
     #### end of main rust toolchain sources
     #### start of rust-std-extra toolchain sources
   - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip1.tar.gz
-    sha256: ff7eeca44ad18538f17c5382613f140fc2c718ff4b21ea06f06de48729ae7a4a
+    sha256: 41cce791e0b2e27838f9ef09707605bb2d4571293fc0e157cd260a0adc90a628
     folder: rust-std-wasm32-wasip1
   - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip2.tar.gz
-    sha256: 720fb7751cb9baaf45bc5358d211482a40cff1d1aaa89cabea7b48557db08d35
+    sha256: 5ee71ee1909e1bd960977b3f2c0bc25e77aae5c447bbc6802a19495f7f30538f
     folder: rust-std-wasm32-wasip2
     #### end of rust-std-extra toolchain sources
 
 build:
-  number: 0
+  number: 2
 
 outputs:
   - name: rust
