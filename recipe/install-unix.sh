@@ -14,9 +14,6 @@ case "$(uname -sp)" in
 "Linux x86_64")
     rust_arch="x86_64-unknown-linux-gnu"
     ;;
-"Darwin i386")
-    rust_arch="x86_64-apple-darwin"
-    ;;
 "Darwin arm")
     rust_arch="aarch64-apple-darwin"
     ;;
