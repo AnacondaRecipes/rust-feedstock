@@ -1,6 +1,6 @@
 # !! update of rust version should be carried out together with rust-activation version update !!
 # https://github.com/AnacondaRecipes/rust-activation-feedstock
-{% set version = "1.87.0" %}
+{% set version = "1.89.0" %}
 
 package:
   name: 'rust-suite'
@@ -9,26 +9,24 @@ package:
 source:
     #### start of main rust toolchain sources
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
-    sha256: 1f6f18ce19387c42968a474cf175e67f99280614ded9c752d5d2e37af3204bcd  # [linux64]
+    sha256: 542f517d0624cbee516627221482b166bf0ffe5fd560ec32beb778c01f5c99b6  # [linux64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
-    sha256: 2c66e31d774a0dcd4422db74584ebc6362ff3ae90c452caff9d2fb912c821e8d  # [aarch64]
-  - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-apple-darwin.tar.gz  # [osx and x86_64]
-    sha256: 867a84a93c6ba0b468b78b52004a6307d6f5e2e5598e64f65726c6810b6f7c82  # [osx and x86_64]
+    sha256: 26d6de84ac59da702aa8c2f903e3c344e3259da02e02ce92ad1c735916b29a4a  # [aarch64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: 249496972e6f845f052036b9d7e73f816418412de2b266ec717b9050c1810dc3  # [osx and arm64]
+    sha256: 87baeb57fb29339744ac5f99857f0077b12fa463217fc165dfd8f77412f38118  # [osx and arm64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win]
-    sha256: 05216dee147b79705629dbf75dee172bf98f316b5c5d038541e60c4a55796cb4  # [win]
+    sha256: 6f899d4a8e6f3243ce23593897a11c77eef535237522b530148b4cfd56d19219  # [win]
     folder: msvc  # [win]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-gnu.tar.gz  # [win64]
-    sha256: 824eeb48568ed3c7da7c1cd06e3cad2077dbdfbb515be39830dfbc53576d49b4  # [win64]
+    sha256: 8637789a8690bc964a21d99b5dafcbc4f660460a445c11f492ebb788e60c7f67  # [win64]
     folder: gnu  # [win]
     #### end of main rust toolchain sources
     #### start of rust-std-extra toolchain sources
   - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip1.tar.gz
-    sha256: ff7eeca44ad18538f17c5382613f140fc2c718ff4b21ea06f06de48729ae7a4a
+    sha256: 07c866640f550fec060e6b24992c339a20bba30f2cdedb780aceb35b1fbd49cf
     folder: rust-std-wasm32-wasip1
   - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip2.tar.gz
-    sha256: 720fb7751cb9baaf45bc5358d211482a40cff1d1aaa89cabea7b48557db08d35
+    sha256: d792c62f8f11e2676f34f89f72c87fe3a4c0f82d990ded171db753e1a661583c
     folder: rust-std-wasm32-wasip2
     #### end of rust-std-extra toolchain sources
 
@@ -40,9 +38,6 @@ outputs:
     script: install-msvc.bat  # [win]
     script: install-unix.sh  # [not win]
     build:
-      run_exports: # [osx and x86_64]
-        strong_constrains: # [osx and x86_64]
-          - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.12") }}  # [osx and x86_64]
       # The distributed binaries are already relocatable
       binary_relocation: False
       runpath_whitelist:
@@ -85,10 +80,12 @@ outputs:
         - '*/api-ms-win-core-winrt-error-l1-1-0.dll'  # [win]
     requirements:
       build:
+        - {{ stdlib('c') }}    # [osx]
         - {{ compiler('c') }}    # [osx]
         - posix  # [win]
     test:
       requires:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
       files:
