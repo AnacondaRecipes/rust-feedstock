@@ -35,7 +35,7 @@ build:
   number: 0
 
 outputs:
-  - name: rust
+  - name: rust-nightly
     script: install-msvc.bat  # [win]
     script: install-unix.sh  # [not win]
     build:
@@ -99,7 +99,7 @@ outputs:
         - rustdoc --help
         - time bash ./forge_test.sh  # [not win]
 
-  - name: rust-gnu  # [win]
+  - name: rust-gnu-nightly  # [win]
     script: install-gnu.bat  # [win]
     build:  # [win]
       # the distributed binaries are already relocatable
@@ -115,7 +115,7 @@ outputs:
         - rustdoc --help  # [win]
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
 
-  - name: rust-std-{{ rust_std_extra }}
+  - name: rust-std-{{ rust_std_extra }}-nightly
     build:
       binary_relocation: False
       runpath_whitelist:
@@ -129,7 +129,7 @@ outputs:
         - "/lib64/ld-linux-x86-64.so.*"  # [linux and x86_64]
       run_exports:
         strong:
-          - {{ pin_subpackage("rust", exact=True) }}
+          - {{ pin_subpackage("rust-nightly", exact=True) }}
     script: install-rust-std-extra.sh  # [unix]
     script: install-rust-std-extra.bat  # [win]
     requirements:
@@ -143,7 +143,7 @@ outputs:
         - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a  # [unix]
         - rustc --print target-list | grep {{ rust_std_extra }}  # [unix]
       requires:
-        - {{ pin_subpackage('rust', exact=True) }}  # [unix]
+        - {{ pin_subpackage('rust-nightly', exact=True) }}  # [unix]
 
 about:
   home: https://www.rust-lang.org
