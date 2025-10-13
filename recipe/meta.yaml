@@ -1,7 +1,7 @@
 # !! update of rust version should be carried out together with rust-activation version update !!
 # https://github.com/AnacondaRecipes/rust-activation-feedstock
-{% set date = "2025-05-28" %}
-{% set version = "1.89.0_" ~ date.replace('-', '_') %}
+{% set date = "2025-10-13" %}
+{% set version = "1.92.0_" ~ date.replace('-', '_') %}
 
 package:
   name: rust-nightly
@@ -10,24 +10,24 @@ package:
 source:
     #### start of main rust toolchain sources
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
-    sha256: ef476111c05a243812b6534c41d3ed081540b9f26a8191c0ee7dc19a51fd01ba  # [linux64]
+    sha256: c24621daf2ef3dbeffc20e83a707db0a1b82e47d51daa68d15b9439f82020b3f  # [linux64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
-    sha256: 32affc1bc5d6f3a8d4aa3498c035a8e649ce1a10fa15b940aa4b69afa9b2e03b  # [aarch64]
+    sha256: 26b1868b33992a3f29477f760464c8659c5f244a6c6b280e9b6554f3830a5708  # [aarch64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: 6c5072d07e07a282cf37dbf72e76d90721e60ade05b95f7b85f73ad7f3a82625  # [osx and arm64]
+    sha256: fa81cfedc09622cae2f223364fc81f514f1189549df10c084e5450b9ded59288  # [osx and arm64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-msvc.tar.gz  # [win]
-    sha256: 37c1ebbd95f4c15af4535c1c6164b8906d043cca96010b12300f650dcf9a98a3  # [win]
+    sha256: 4fa2a95764b99d818393d60c5934d4b7fc5cf23fa42b54961689942bc6f49992  # [win]
     folder: msvc  # [win]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win64]
-    sha256: 867e6247b6775ab7efba86949c765217f8b1772a26f72b9ce0694d9dddedaa91  # [win64]
+    sha256: dffc2146fa53fbc99badbcd915752c740d93f96da0c60ca39d26e4e96d996903  # [win64]
     folder: gnu  # [win]
     #### end of main rust toolchain sources
     #### start of rust-std-extra toolchain sources
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-std-nightly-wasm32-wasip1.tar.gz
-    sha256: f516b3f9aef14fc85000d84d39019c6dfea5165255c6527f1beaa3caec3705b9
+    sha256: 1e9628057af8bbaf3d2e90a7b93aa309ce8b7fec0ef61cc9b007323fcbe64a93
     folder: rust-std-wasm32-wasip1
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-std-nightly-wasm32-wasip2.tar.gz
-    sha256: d65f14de0aacc02cd86718d734981680ee5a528d14a1b85fc1d582046b753a17
+    sha256: ff93bb727960c12a8588cee9a4e4a70df4aec79be4512b9e8f6f1ac1590a6c76
     folder: rust-std-wasm32-wasip2
     #### end of rust-std-extra toolchain sources
 
@@ -104,6 +104,9 @@ outputs:
     build:  # [win]
       # the distributed binaries are already relocatable
       binary_relocation: False  # [win]
+      missing_dso_whitelist:  # [win]
+        - '*/api-ms-win-core-winrt-l1-1-0.dll'  # [win]
+        - '*/api-ms-win-core-winrt-error-l1-1-0.dll'  # [win]
     requirements:  # [win]
       build:  # [win]
         - posix # [win]
