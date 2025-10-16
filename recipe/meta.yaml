@@ -4,7 +4,7 @@
 {% set version = "1.92.0_" ~ date.replace('-', '_') %}
 
 package:
-  name: rust-nightly
+  name: rust-nightly-split
   version: {{ version }}
 
 source:
@@ -32,7 +32,7 @@ source:
     #### end of rust-std-extra toolchain sources
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: rust-nightly
@@ -117,7 +117,6 @@ outputs:
         - rustc --help  # [win]
         - rustdoc --help  # [win]
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
-
   - name: rust-std-{{ rust_std_extra }}-nightly
     build:
       binary_relocation: False

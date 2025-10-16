@@ -1,4 +1,7 @@
+@echo on
+
 pushd gnu
 FOR /F "delims=" %%i in ('cygpath.exe -u "%PREFIX%"') DO set "pfx=%%i"
+if errorlevel 1 exit 1
 bash install.sh --prefix=%pfx%/Library
 if errorlevel 1 exit 1
