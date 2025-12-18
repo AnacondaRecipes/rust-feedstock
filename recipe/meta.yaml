@@ -31,7 +31,7 @@ source:
     #### end of rust-std-extra toolchain sources
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: rust
