@@ -1,6 +1,6 @@
 # !! update of rust version should be carried out together with rust-activation version update !!
 # https://github.com/AnacondaRecipes/rust-activation-feedstock
-{% set version = "1.89.0" %}
+{% set version = "1.90.0" %}
 
 package:
   name: 'rust-suite'
@@ -9,29 +9,29 @@ package:
 source:
     #### start of main rust toolchain sources
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
-    sha256: 542f517d0624cbee516627221482b166bf0ffe5fd560ec32beb778c01f5c99b6  # [linux64]
+    sha256: e453bae1c68d02fe2eae065c5452d5731308164cd154154c6ee442d2fa590685  # [linux64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
-    sha256: 26d6de84ac59da702aa8c2f903e3c344e3259da02e02ce92ad1c735916b29a4a  # [aarch64]
+    sha256: 293f412e3412c3aa3398c78ebbdf898fa08eacad80c85a7332ce1a455504c5fc  # [aarch64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: 87baeb57fb29339744ac5f99857f0077b12fa463217fc165dfd8f77412f38118  # [osx and arm64]
+    sha256: a11b52e34f5e80cb25d49f7943ae60e0b069b431727a4c09b2c890ceebee3687  # [osx and arm64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win]
-    sha256: 6f899d4a8e6f3243ce23593897a11c77eef535237522b530148b4cfd56d19219  # [win]
+    sha256: 1aa997bcda4258795ea9eee1430843928dc185fad40067b180593456057a9126  # [win]
     folder: msvc  # [win]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-gnu.tar.gz  # [win64]
-    sha256: 8637789a8690bc964a21d99b5dafcbc4f660460a445c11f492ebb788e60c7f67  # [win64]
+    sha256: 378e17f1fe2d3e9f62b4d38371068cda1cab9ea47c561af4ea326abfefd8874e  # [win64]
     folder: gnu  # [win]
     #### end of main rust toolchain sources
     #### start of rust-std-extra toolchain sources
   - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip1.tar.gz
-    sha256: 07c866640f550fec060e6b24992c339a20bba30f2cdedb780aceb35b1fbd49cf
+    sha256: 0ea19575b8fd5238e4e094bfb849df1d265a97c824ca6f31d607699588b3dffd
     folder: rust-std-wasm32-wasip1
   - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip2.tar.gz
-    sha256: d792c62f8f11e2676f34f89f72c87fe3a4c0f82d990ded171db753e1a661583c
+    sha256: f4405a408199bac5babba5f26ab967a61b19002ae8b75514874822b4b4fd1238
     folder: rust-std-wasm32-wasip2
     #### end of rust-std-extra toolchain sources
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: rust
