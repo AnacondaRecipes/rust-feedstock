@@ -1,13 +1,28 @@
 @echo off
+setlocal enabledelayedexpansion
 
-cd rust-std-%rust_std_extra%
+set "DESTDIR=%LIBRARY_PREFIX%"
+set "SRCDIR=%SRC_DIR%\rust-std-%rust_std_extra%"
 
-FOR /F "delims=" %%i in ('cygpath.exe -u "%PREFIX%"') DO set "pfx=%%i"
-bash install.sh --prefix=%pfx%/Library
-if errorlevel 1 exit 1
+echo Installing rust-std-%rust_std_extra% from %SRCDIR% to %DESTDIR%
 
-del /f /q %PREFIX%\Library\lib\rustlib\manifest-rust-std-%rust_std_extra%
-del /f /q %PREFIX%\Library\lib\rustlib\rust-installer-version
-del /f /q %PREFIX%\Library\lib\rustlib\install.log
-del /f /q %PREFIX%\Library\lib\rustlib\components
-del /f /q %PREFIX%\Library\lib\rustlib\uninstall.sh
+REM Read components and install each one
+for /f "usebackq tokens=*" %%c in ("%SRCDIR%\components") do (
+    echo Installing component: %%c
+    set "COMPDIR=%SRCDIR%\%%c"
+    
+    REM Copy lib directory if exists  
+    if exist "!COMPDIR!\lib" (
+        xcopy /E /I /Y "!COMPDIR!\lib" "%DESTDIR%\lib\"
+    )
+)
+
+REM Clean up installer metadata files
+del /f /q "%DESTDIR%\lib\rustlib\manifest-rust-std-%rust_std_extra%" 2>nul
+del /f /q "%DESTDIR%\lib\rustlib\rust-installer-version" 2>nul
+del /f /q "%DESTDIR%\lib\rustlib\install.log" 2>nul
+del /f /q "%DESTDIR%\lib\rustlib\components" 2>nul
+del /f /q "%DESTDIR%\lib\rustlib\uninstall.sh" 2>nul
+
+echo rust-std-%rust_std_extra% installation complete.
+exit /b 0
