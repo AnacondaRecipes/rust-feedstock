@@ -1,7 +1,7 @@
 # !! update of rust version should be carried out together with rust-activation version update !!
 # https://github.com/AnacondaRecipes/rust-activation-feedstock
-{% set date = "2025-10-13" %}
-{% set version = "1.92.0_" ~ date.replace('-', '_') %}
+{% set date = "2026-02-06" %}
+{% set version = "1.95.0_" ~ date.replace('-', '_') %}
 
 package:
   name: rust-nightly-split
@@ -10,24 +10,24 @@ package:
 source:
     #### start of main rust toolchain sources
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-unknown-linux-gnu.tar.gz  # [linux64]
-    sha256: c24621daf2ef3dbeffc20e83a707db0a1b82e47d51daa68d15b9439f82020b3f  # [linux64]
+    sha256: 9a660fdd3740aed480b28bb27674bca7de90a063c9a37838f0cf4e8782b06f2e  # [linux64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-unknown-linux-gnu.tar.gz  # [aarch64]
-    sha256: 26b1868b33992a3f29477f760464c8659c5f244a6c6b280e9b6554f3830a5708  # [aarch64]
+    sha256: ed589455d529e87de70467155bdc7a3cbb6e6003d516732e749e1733c8dd74f5  # [aarch64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: fa81cfedc09622cae2f223364fc81f514f1189549df10c084e5450b9ded59288  # [osx and arm64]
+    sha256: d877d04698e94ace24a3faded896f56ed11a2c442e3ec153c73c35a327309e2d  # [osx and arm64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-msvc.tar.gz  # [win]
-    sha256: 4fa2a95764b99d818393d60c5934d4b7fc5cf23fa42b54961689942bc6f49992  # [win]
+    sha256: 2b2ef8a0f79a5e09d8e79790ed20062f3735c30e1d92a9616fd92b09b1e9894e  # [win]
     folder: msvc  # [win]
-  - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win64]
-    sha256: dffc2146fa53fbc99badbcd915752c740d93f96da0c60ca39d26e4e96d996903  # [win64]
+  - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win]
+    sha256: 6a8933b3568f633e31f5cc241e7da660ce75d46e96ce2c4bec8bd920e7cb8a5b  # [win]
     folder: gnu  # [win]
     #### end of main rust toolchain sources
     #### start of rust-std-extra toolchain sources
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-std-nightly-wasm32-wasip1.tar.gz
-    sha256: 1e9628057af8bbaf3d2e90a7b93aa309ce8b7fec0ef61cc9b007323fcbe64a93
+    sha256: 0de861a92f908815977879f506e552d3b32e5e3d78e482e4ed124472d01539b1
     folder: rust-std-wasm32-wasip1
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-std-nightly-wasm32-wasip2.tar.gz
-    sha256: ff93bb727960c12a8588cee9a4e4a70df4aec79be4512b9e8f6f1ac1590a6c76
+    sha256: 68a4d0d038151856099674ffbdb64bf6316a6dd3b0018142cf933dbe1e82b330
     folder: rust-std-wasm32-wasip2
     #### end of rust-std-extra toolchain sources
 
@@ -140,9 +140,9 @@ outputs:
     test:
       commands:
         - echo ON  # [win]
-        - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/libcore*.rlib  # [unix]
+        - test -f ${PREFIX}/lib/rustlib/{{ rust_std_extra }}/lib/libcore*.rlib  # [unix]
         # Make sure that the outputs do not clobber with other rust components
-        - test -f $PREFIX/lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a  # [unix]
+        - test -f ${PREFIX}/lib/rustlib/{{ rust_std_extra }}/lib/self-contained/libc.a  # [unix]
         - rustc --print target-list | grep {{ rust_std_extra }}  # [unix]
       requires:
         - {{ pin_subpackage('rust-nightly', exact=True) }}  # [unix]
