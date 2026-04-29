@@ -11,4 +11,3 @@ upstream_sources:
       - rust-gnu
       - rust-std-wasm32-wasip1
       - rust-std-wasm32-wasip2
-      - rust_win-32
