@@ -83,7 +83,7 @@ outputs:
       build:
         - {{ stdlib('c') }}    # [osx]
         - {{ compiler('c') }}    # [osx]
-        - posix  # [win]
+        - msys2-posix  # [win]
     test:
       requires:
         - {{ stdlib('c') }}
@@ -106,7 +106,7 @@ outputs:
       binary_relocation: False  # [win]
     requirements:  # [win]
       build:  # [win]
-        - posix # [win]
+        - msys2-posix # [win]
     test:  # [win]
       commands:  # [win]
         - rustc --version  # [win]
@@ -134,7 +134,7 @@ outputs:
     script: install-rust-std-extra.bat  # [win]
     requirements:
       build:
-        - posix  # [win]
+        - msys2-posix  # [win]
     test:
       commands:
         - echo ON  # [win]
