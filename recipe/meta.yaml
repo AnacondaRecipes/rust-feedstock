@@ -89,7 +89,6 @@ outputs:
       build:
         - {{ stdlib('c') }}    # [osx]
         - {{ compiler('c') }}    # [osx]
-        - msys2-posix  # [win]
     test:
       requires:
         - {{ stdlib('c') }}
@@ -110,9 +109,6 @@ outputs:
     build:  # [win]
       # the distributed binaries are already relocatable
       binary_relocation: False  # [win]
-    requirements:  # [win]
-      build:  # [win]
-        - msys2-posix # [win]
     test:  # [win]
       commands:  # [win]
         - rustc --version  # [win]
