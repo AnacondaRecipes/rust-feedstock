@@ -30,6 +30,11 @@ for /f "usebackq tokens=*" %%c in ("%SRCDIR%\components") do (
     if exist "!COMPDIR!\etc" (
         xcopy /E /I /Y "!COMPDIR!\etc" "%DESTDIR%\etc\"
     )
+
+    REM Copy libexec directory if exists
+    if exist "!COMPDIR!\libexec" (
+        xcopy /E /I /Y "!COMPDIR!\libexec" "%DESTDIR%\libexec\"
+    )
 )
 
 REM Remove documentation to reduce package size (docs available online)
