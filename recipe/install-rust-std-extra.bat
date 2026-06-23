@@ -14,6 +14,7 @@ for /f "usebackq tokens=*" %%c in ("%SRCDIR%\components") do (
     REM Copy lib directory if exists  
     if exist "!COMPDIR!\lib" (
         xcopy /E /I /Y "!COMPDIR!\lib" "%DESTDIR%\lib\"
+        if errorlevel 1 exit /b 1
     )
 )
 

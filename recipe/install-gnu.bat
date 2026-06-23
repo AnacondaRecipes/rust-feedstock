@@ -14,26 +14,31 @@ for /f "usebackq tokens=*" %%c in ("%SRCDIR%\components") do (
     REM Copy bin directory if exists
     if exist "!COMPDIR!\bin" (
         xcopy /E /I /Y "!COMPDIR!\bin" "%DESTDIR%\bin\"
+        if errorlevel 1 exit /b 1
     )
     
     REM Copy lib directory if exists  
     if exist "!COMPDIR!\lib" (
         xcopy /E /I /Y "!COMPDIR!\lib" "%DESTDIR%\lib\"
+        if errorlevel 1 exit /b 1
     )
     
     REM Copy share directory if exists
     if exist "!COMPDIR!\share" (
         xcopy /E /I /Y "!COMPDIR!\share" "%DESTDIR%\share\"
+        if errorlevel 1 exit /b 1
     )
     
     REM Copy etc directory if exists
     if exist "!COMPDIR!\etc" (
         xcopy /E /I /Y "!COMPDIR!\etc" "%DESTDIR%\etc\"
+        if errorlevel 1 exit /b 1
     )
 
     REM Copy libexec directory if exists
     if exist "!COMPDIR!\libexec" (
         xcopy /E /I /Y "!COMPDIR!\libexec" "%DESTDIR%\libexec\"
+        if errorlevel 1 exit /b 1
     )
 )
 
