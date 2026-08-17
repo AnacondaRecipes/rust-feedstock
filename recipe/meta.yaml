@@ -116,6 +116,16 @@ outputs:
         - rustc --help  # [win]
         - rustdoc --help  # [win]
         - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
+    about:
+      home: https://rust-lang.org
+      license: MIT AND Apache-2.0
+      license_family: OTHER
+      summary: |
+        Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
+      description: |
+        This package provides the GNU-toolchain variant of the Rust compiler (rustc) and documentation utilities (rustdoc) for Windows.
+      dev_url: https://github.com/rust-lang/rust
+      doc_url: https://rust-lang.org/learn
 
   - name: rust-std-{{ rust_std_extra }}
     build:
@@ -143,18 +153,27 @@ outputs:
         - rustc --print target-list | grep {{ rust_std_extra }}  # [unix]
       requires:
         - {{ pin_subpackage('rust', exact=True) }}  # [unix]
+    about:
+      home: https://rust-lang.org
+      license: MIT AND Apache-2.0
+      license_family: OTHER
+      summary: |
+        Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
+      description: |
+        This package provides additional Rust standard library components for the {{ rust_std_extra }} target, enabling cross-compilation.
+      dev_url: https://github.com/rust-lang/rust
+      doc_url: https://rust-lang.org/learn
 
 about:
-  home: https://www.rust-lang.org
+  home: https://rust-lang.org
   license: MIT AND Apache-2.0
   license_family: OTHER
-  license_url: https://github.com/rust-lang/rust/blob/{{ version }}/COPYRIGHT
   summary: |
     Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
   description: |
     This package provides the compiler (rustc) and the documentation utilities rustdoc.
   dev_url: https://github.com/rust-lang/rust
-  doc_url: https://www.rust-lang.org/learn
+  doc_url: https://rust-lang.org/learn
 
 extra:
   # The license files cannot be found properly on Windows
