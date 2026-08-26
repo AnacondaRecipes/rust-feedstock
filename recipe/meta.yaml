@@ -15,12 +15,18 @@ source:
     sha256: 6210ba08d54d229fae9cfaf83b7b812d10a0b93bd8eca25df893da32602625ef  # [linux and aarch64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-apple-darwin.tar.gz  # [osx and arm64]
     sha256: e2b2e2fb9688399690a820c012a1a4d65112061634ab5737f3e2915017874bd4  # [osx and arm64]
-  - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-msvc.tar.gz  # [win]
-    sha256: 590c2e94dd08f438917f0a85843417c148bfda324f2e63a05010a52d3af56629  # [win]
-    folder: msvc  # [win]
-  - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win]
-    sha256: ae6b48d977bc05f2579ca45509aeb2e3a9ef09107eae4e538f63465e73578336  # [win]
-    folder: gnu  # [win]
+  - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-msvc.tar.gz  # [win and x86_64]
+    sha256: 590c2e94dd08f438917f0a85843417c148bfda324f2e63a05010a52d3af56629  # [win and x86_64]
+    folder: msvc  # [win and x86_64]
+  - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-pc-windows-msvc.tar.gz  # [win and arm64]
+    sha256: 9b82e1820cf85d0d3199981787ac7f86622dbef475357bf7fa33c26a1168dced  # [win and arm64]
+    folder: msvc  # [win and arm64]
+  - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win and x86_64]
+    sha256: ae6b48d977bc05f2579ca45509aeb2e3a9ef09107eae4e538f63465e73578336  # [win and x86_64]
+    folder: gnu  # [win and x86_64]
+  - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-pc-windows-gnullvm.tar.gz  # [win and arm64]
+    sha256: ec5fbffee63a6143d3c522557dcd16d14304152026c929f082cfbc7b89ee5139  # [win and arm64]
+    folder: gnu  # [win and arm64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-std-nightly-wasm32-wasip1.tar.gz
     sha256: 9ce487fd9da318a004f507cbf5af084955a3d681808252cf613c7a1310ad8138
     folder: rust-std-wasm32-wasip1
@@ -81,7 +87,6 @@ outputs:
       build:
         - {{ stdlib('c') }}    # [osx]
         - {{ compiler('c') }}    # [osx]
-        - msys2-posix  # [win]
     test:
       requires:
         - {{ stdlib('c') }}
@@ -105,9 +110,6 @@ outputs:
       missing_dso_whitelist:  # [win]
         - '*/api-ms-win-core-winrt-l1-1-0.dll'  # [win]
         - '*/api-ms-win-core-winrt-error-l1-1-0.dll'  # [win]
-    requirements:  # [win]
-      build:  # [win]
-        - msys2-posix # [win]
     test:  # [win]
       commands:  # [win]
         - rustc --version  # [win]
@@ -132,9 +134,6 @@ outputs:
           - {{ pin_subpackage("rust-nightly", exact=True) }}
     script: install-rust-std-extra.sh  # [unix]
     script: install-rust-std-extra.bat  # [win]
-    requirements:
-      build:
-        - msys2-posix  # [win]
     test:
       commands:
         - echo ON  # [win]
