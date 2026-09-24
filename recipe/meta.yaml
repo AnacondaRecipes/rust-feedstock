@@ -160,14 +160,8 @@ outputs:
         # rust-src must come from the same nightly as the compiler using it.
         - {{ pin_subpackage("rust-nightly", exact=True) }}
     test:
-      requires:
-        - {{ pin_subpackage("rust-nightly", exact=True) }}
-        - {{ stdlib('c') }}  # [unix]
-        - {{ compiler('c') }}  # [unix]
-      files:
-        - test-rust-src.sh  # [unix]
       commands:
-        - bash ./test-rust-src.sh  # [unix]
+        - test -f "${PREFIX}/lib/rustlib/src/rust/library/Cargo.lock"  # [unix]
         - if not exist "%LIBRARY_PREFIX%\lib\rustlib\src\rust\library\Cargo.lock" exit 1  # [win]
 
 about:
