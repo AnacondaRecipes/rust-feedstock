@@ -1,7 +1,7 @@
 # !! update of rust version should be carried out together with rust-activation version update !!
 # https://github.com/AnacondaRecipes/rust-activation-feedstock
-{% set date = "2026-08-18" %}
-{% set version = "1.100.0_" ~ date.replace('-', '_') %}
+{% set date = "2026-07-20" %}
+{% set version = "1.99.0_" ~ date.replace('-', '_') %}
 
 package:
   name: rust-nightly-split
@@ -10,30 +10,34 @@ package:
 source:
     #### start of main rust toolchain sources
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-unknown-linux-gnu.tar.gz  # [linux and x86_64]
-    sha256: bcbe1e697a94e60f10aed064cc19a48fcbe2435cb01f5e4365a5100d7860e51e  # [linux and x86_64]
+    sha256: c523fa5f411d3955a6a01d90054a77f9a67750aa104f6380becf84af59b312b8  # [linux and x86_64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-unknown-linux-gnu.tar.gz  # [linux and aarch64]
-    sha256: c61264e0573bb2da47c521ac8a1a0d5b1ab4b56d266a2e8745c3d07badc9e66e  # [linux and aarch64]
+    sha256: 8341c57ae44f1393b75ccdb8be7cb8139f18e7455298bb3ab8efc8e839318852  # [linux and aarch64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: 7571c265b41e281b5a6b7545fff8532c620ea62250a53ee1718f55073d10f41a  # [osx and arm64]
+    sha256: 5b5a55cf7f8cd92f37d0476ca7eea08e05c0336ce6c7e6764168825589207834  # [osx and arm64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-msvc.tar.gz  # [win and x86_64]
-    sha256: a4d7f3c31b4ab043f8b879884a05a8ff3838dba63503b043aa89d3ef697c677e  # [win and x86_64]
+    sha256: 89b90512a4396707b84efd323445ab4e5a01bc42bc5b5d3e668235f5f0f83365  # [win and x86_64]
     folder: msvc  # [win and x86_64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-pc-windows-msvc.tar.gz  # [win and arm64]
-    sha256: 16766e2661cbd2eca4663a7e1debdc5115e20b3ac0baf2f534e12af1343dd6e2  # [win and arm64]
+    sha256: 248b2a356e891853c0cd8e99852a169bb3b4fedd42e614e3decfbe7f136def33  # [win and arm64]
     folder: msvc  # [win and arm64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-x86_64-pc-windows-gnu.tar.gz  # [win and x86_64]
-    sha256: 0a9d503f7a28af3266324d448533ec0de0c8d51b9fe252bde87f6fcd725ee687  # [win and x86_64]
+    sha256: b5f9dead031eea394f91cd04115d03c15669bca43583eb1033ac0607fcaf67eb  # [win and x86_64]
     folder: gnu  # [win and x86_64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-nightly-aarch64-pc-windows-gnullvm.tar.gz  # [win and arm64]
-    sha256: 1e303b8b555b9a416957d36e5525d0b32f9db3efd24bd3d5ef6557659fa88478  # [win and arm64]
+    sha256: c4a81ac92c2a4c5985af1d330dc603489e3f029bf91dde1b40c88bce0b0fd22d  # [win and arm64]
     folder: gnu  # [win and arm64]
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-std-nightly-wasm32-wasip1.tar.gz
-    sha256: 64873918649f288f34fd59a4770908a58e5ab07cab479f3e1cf33c8c57de73ce
+    sha256: 5402ae9a247cc755c41f033523f95bed6f8da5ee73d0f4881e952b01e16d5119
     folder: rust-std-wasm32-wasip1
   - url: https://static.rust-lang.org/dist/{{ date }}/rust-std-nightly-wasm32-wasip2.tar.gz
-    sha256: 12651811e45a9b504f8b3bf9983bac55b901512186408455096e5f4b20a6ff7b
+    sha256: d650ae793fc9edb5031c1153feaba3ee2987bc80fca2dab9490c09de4240a2e2
     folder: rust-std-wasm32-wasip2
     #### end of rust-std-extra toolchain sources
+  # Standard library sources, for `cargo -Zbuild-std` (rust-src-nightly output).
+  - url: https://static.rust-lang.org/dist/{{ date }}/rust-src-nightly.tar.gz
+    sha256: 2be85b655b99624bed0fb63a47e564abac07aa1fb5d0576abac5c42ef8c5316e
+    folder: rust-src
 
 build:
   number: 0
@@ -143,6 +147,22 @@ outputs:
         - rustc --print target-list | grep {{ rust_std_extra }}  # [unix]
       requires:
         - {{ pin_subpackage('rust-nightly', exact=True) }}  # [unix]
+
+  # Sources of std/core/alloc for this exact nightly, installed into the rustc
+  # sysroot (lib/rustlib/src/rust) where `cargo -Zbuild-std` looks for them.
+  - name: rust-src-nightly
+    script: install-rust-src.sh  # [unix]
+    script: install-rust-src.bat  # [win]
+    build:
+      binary_relocation: False
+    requirements:
+      run_constrained:
+        # rust-src must come from the same nightly as the compiler using it.
+        - {{ pin_subpackage("rust-nightly", exact=True) }}
+    test:
+      commands:
+        - test -f "${PREFIX}/lib/rustlib/src/rust/library/Cargo.lock"  # [unix]
+        - if not exist "%LIBRARY_PREFIX%\lib\rustlib\src\rust\library\Cargo.lock" exit 1  # [win]
 
 about:
   home: https://www.rust-lang.org
