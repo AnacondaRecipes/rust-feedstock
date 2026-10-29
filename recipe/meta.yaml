@@ -1,7 +1,7 @@
 # !! update of rust version should be carried out together with rust-activation version update !!
 # https://github.com/AnacondaRecipes/rust-activation-feedstock
 {% set name = "rust" %}
-{% set version = "1.97.1" %}
+{% set version = "1.99.1" %}
 
 package:
   name: {{ name }}-suite
@@ -10,35 +10,35 @@ package:
 source:
     #### start of main rust toolchain sources
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux and x86_64]
-    sha256: b4cdbc7cc6b0ee0a2666b1872769fdb2ad8393b28b63952f6493b4b400e4832b  # [linux and x86_64]
+    sha256: aded4e6c1d580415e7b594a3080d8e23e9cbe06f159f97e300aa6875211f71bf  # [linux and x86_64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [linux and aarch64]
-    sha256: 2f2496c70bd336a66a4c8baf2d303ba161f3552f192444c3639ba903c7c1e2c5  # [linux and aarch64]
+    sha256: 703b190f0d723ae68985797f3bb5f62f01b1723f138464c6f30f32b766eb0abf  # [linux and aarch64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
-    sha256: cbd14c36f039f6f11f38148a6295d8234d18ddf20bea53031c86f119423a8b26  # [osx and arm64]
+    sha256: b73b6a78c4e7171a8fe1b4bee5342273605c5c9a9a4997554c15bb3ce2753b6a  # [osx and arm64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win and x86_64]
-    sha256: efbb66ddc8ca271424e5bf4de9b5c552c2f6cc68e36309b2c7bbe683c72d0334  # [win and x86_64]
+    sha256: 538241bf547d40c072b859672ba7d70717365b25a111f680aeba3bbcfb6c8ee6  # [win and x86_64]
     folder: msvc  # [win and x86_64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-pc-windows-msvc.tar.gz  # [win and arm64]
-    sha256: 96cceaec35b69832aead092bab44d120ea88bcaf57bb3377354f1148b25c00d1  # [win and arm64]
+    sha256: f3905ce702eff09b085fc537667d5c83f727c71d811fa8b1fe44ae2d32653f16  # [win and arm64]
     folder: msvc  # [win and arm64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-gnu.tar.gz  # [win and x86_64]
-    sha256: 54709e21a51ae8d2702c123d42d8fcbb5495029f7a0627cec6cea560e7bbb2e5  # [win and x86_64]
+    sha256: 27a23bad26d412316b64a36553a3724234f68631d7a21955a724936da80f9078  # [win and x86_64]
     folder: gnu  # [win and x86_64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-pc-windows-gnullvm.tar.gz  # [win and arm64]
-    sha256: 9fd5245c4293a9913c8b7c2accfaa02e48823c42bfc952fbb2659a5f39cf9c95  # [win and arm64]
+    sha256: 1769c8186e9bec0cad98e550d9b19d03842e2b3b764ce8ea24678fba7c738813  # [win and arm64]
     folder: gnu  # [win and arm64]
     #### end of main rust toolchain sources
     #### start of rust-std-extra toolchain sources
   - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip1.tar.gz
-    sha256: f7914edd8e8f50f40f4294ff58f05c0ce3dd5be2cb245658a6a4205df415cd34
+    sha256: baedd564ed38ba09d3a65fd686a58427931f000999cf48788063a81a25d977a8
     folder: rust-std-wasm32-wasip1
   - url: https://static.rust-lang.org/dist/rust-std-{{ version }}-wasm32-wasip2.tar.gz
-    sha256: 67f9bbbeee9a8a015d64cc13b21dd3dcd1292a8b29562f03816ea0c81d63df25
+    sha256: 689ddbe90e28ac0adbb3139954ca3dfb438d1933107c95c6b61fdc1d2a455a41
     folder: rust-std-wasm32-wasip2
     #### end of rust-std-extra toolchain sources
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: rust
@@ -104,18 +104,18 @@ outputs:
         - rustdoc --help
         - time bash ./forge_test.sh  # [not win]
 
-  - name: rust-gnu  # [win]
-    script: install-gnu.bat  # [win]
-    build:  # [win]
+  - name: rust-gnu  # [win64]
+    script: install-gnu.bat  # [win64]
+    build:  # [win64]
       # the distributed binaries are already relocatable
-      binary_relocation: False  # [win]
-    test:  # [win]
-      commands:  # [win]
-        - rustc --version  # [win]
-        - cargo --help  # [win]
-        - rustc --help  # [win]
-        - rustdoc --help  # [win]
-        - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win]
+      binary_relocation: False  # [win64]
+    test:  # [win64]
+      commands:  # [win64]
+        - rustc --version  # [win64]
+        - cargo --help  # [win64]
+        - rustc --help  # [win64]
+        - rustdoc --help  # [win64]
+        - if exist %LIBRARY_PREFIX%\share\doc\rust\html\sysroot exit 1  # [win64]
 
   - name: rust-std-{{ rust_std_extra }}
     build:
