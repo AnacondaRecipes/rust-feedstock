@@ -10,9 +10,9 @@ package:
 source:
     #### start of main rust toolchain sources
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-unknown-linux-gnu.tar.gz  # [linux and x86_64]
-    sha256: 703b190f0d723ae68985797f3bb5f62f01b1723f138464c6f30f32b766eb0abf  # [linux and x86_64]
+    sha256: aded4e6c1d580415e7b594a3080d8e23e9cbe06f159f97e300aa6875211f71bf  # [linux and x86_64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-unknown-linux-gnu.tar.gz  # [linux and aarch64]
-    sha256: aded4e6c1d580415e7b594a3080d8e23e9cbe06f159f97e300aa6875211f71bf  # [linux and aarch64]
+    sha256: 703b190f0d723ae68985797f3bb5f62f01b1723f138464c6f30f32b766eb0abf  # [linux and aarch64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-aarch64-apple-darwin.tar.gz  # [osx and arm64]
     sha256: b73b6a78c4e7171a8fe1b4bee5342273605c5c9a9a4997554c15bb3ce2753b6a  # [osx and arm64]
   - url: https://static.rust-lang.org/dist/rust-{{ version }}-x86_64-pc-windows-msvc.tar.gz  # [win and x86_64]
@@ -38,7 +38,7 @@ source:
     #### end of rust-std-extra toolchain sources
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: rust
